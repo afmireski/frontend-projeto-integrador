@@ -20,7 +20,7 @@ export default function Login() {
   return (
     <div className={styles.containerLogin}>
       <form onSubmit={handleLogin} className={styles.form}>
-        <div className='flex flex-col h-full w-full'>
+        <div className='flex flex-col h-full w-96'>
           <div className='flex flex-col h-full w-full justify-center items-center p-3'>
             <h2 className='text-2xl font-bold text-white'>LOGIN</h2>
           </div>
@@ -28,12 +28,12 @@ export default function Login() {
             <div className='flex flex-row h-full w-full justify-center items-center'>
               <div className=''>
                 <input
-                  type="text"
+                  type="email"
                   className={styles.myinput}
-                  id="username"
+                  id="email"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Nome"
+                  placeholder="E-mail"
                 />
               </div>
             </div>
@@ -49,14 +49,19 @@ export default function Login() {
                 />
               </div>
             </div>
-            <div className='flex flex-row w-full justify-start mb-5'>
-              <input className='mr-2' type="checkbox" name="remember-me" id="remember"/>
-              <div className='text-white'>lembre-me</div>
+            <div className='flex flex-row w-[70%] justify-start mb-5'>
+              <div className='flex flex-row w-full justify-start mb-5'>
+                <input className='mr-2' type="checkbox" name="remember-me" id="remember"/>
+                <div className='text-white'>lembre-me</div>
+              </div>
+              <div className='flex flex-row w-full justify-end mb-5'>
+                <div className='text-white'><a className='hover:underline' href='#'>esqueçeu a senha?</a></div>
+              </div>
             </div>
           </div>
           <div className='flex flex-col justify-center items-center h-full w-full'>
             <div className='flex flex-col justify-center items-center h-full w-full'>
-              <button className="bg-[#E7852B] h-full w-full p-2 rounded-lg text-white" type="submit">Entrar</button>
+              <button className="bg-[#E7852B] h-full w-[65%] p-2 rounded-lg text-white" type="submit">Entrar</button>
             </div>
             <div className='flex flex-col justify-center items-center h-full w-full mt-5'>
               <button className="bg-[#ffffff] h-full w-10 p-2 rounded-full text-white" type="submit">
