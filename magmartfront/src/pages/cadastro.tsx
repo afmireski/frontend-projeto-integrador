@@ -80,7 +80,7 @@ export default function Login() {
                 <div className='flex flex-row h-full w-full justify-center items-center'>
                   <div className="">
                     <input
-                      className={styles.myinput}
+                      className="w-[13.5rem] p-1 mb-4 border border-gray-300 rounded-lg opacity-50 text-black"
                       type="date"
                       id="Nascimento"
                       value={password}
