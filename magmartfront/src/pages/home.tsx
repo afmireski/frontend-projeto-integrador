@@ -1,24 +1,28 @@
-import Image from "next/image";
-import styles from '../styles/Home.module.css';
 
-export default function Home() {
+import React,{ useState } from 'react';
+import styles from '../styles/Home.module.css';
+import "../app/globals.css";
+import Image from 'next/image'
+import { useRouter } from 'next/router';
+import Nav from './header';
+
+export default function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Aqui você pode adicionar lógica para autenticar o usuário
+    console.log('Usuário:', username);
+    console.log('Senha:', password);
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-     
-      <div className= "containerHome ">
-      <div className="header">
-        <h1>helo!!</h1> 
+    <div>
+      <Nav></Nav>
+      <div className={styles.containerHome}>
+
       </div>
-        <Image 
-        src="/Firepals.png" 
-        alt= "background image"
-        className="background" 
-        // width={1000} 
-        // height={700}
-        fill={true}
-        />
-        
-      </div>
-    </main>
+    </div>
   );
 }
