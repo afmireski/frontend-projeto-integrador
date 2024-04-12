@@ -8,18 +8,20 @@ Card.propTypes = {
 
 function Card({ title, description }) {
     return (
-        <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
-            <div className="md:flex">
+        <div className=" bg-white rounded-md w-[200px] shadow-md overflow-hidden md:max-w-2xl inline-block mr-4 mb-4">
+            <div className="md:flex ">
                 <div className="md:flex-shrink-0">
-                    <img className="h-48 w-full object-cover md:w-48" src="https://via.placeholder.com/150" alt="Imagem do Card" />
+                    <img className="w-full object-cover" src="https://via.placeholder.com/200" alt="Imagem do Card" />
                 </div>
-                <div className="p-8">
-                    <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{title}</div>
-                    <p className="mt-2 text-gray-500">{description}</p>
-                </div>
+            </div>
+            <div className="p-4">
+                <div className="uppercase tracking-wide text-sm text-[#D64E24] font-semibold">{title}</div>
+                <p className="mt-2 text-gray-500">{description}</p>
             </div>
         </div>
     );
 }
+
+
 
 export default Card;
