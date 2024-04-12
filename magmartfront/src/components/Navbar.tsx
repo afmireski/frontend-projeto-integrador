@@ -7,10 +7,10 @@ function Navbar() {
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center">
                         <div className="hidden md:block">
-                            <div className="flex justify-between items-center flex-shrink-0 text-white">
-                                Logo
-                            </div>
-                            <div className="flex justify-between items-center ml-10 space-x-4">
+                            <div className="flex justify-between items-center ml-10 ">
+                                <div className="flex justify-between items-center flex-shrink-0 text-white">
+                                    Logo
+                                </div>
                                 <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Início</a>
                                 <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Sobre</a>
                                 <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contato</a>

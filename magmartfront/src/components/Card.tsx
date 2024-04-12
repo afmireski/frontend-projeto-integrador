@@ -8,7 +8,7 @@ Card.propTypes = {
 
 function Card({ title, description }) {
     return (
-        <div className="max-w-md bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl inline-block mr-4 mb-4">
+        <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
             <div className="md:flex">
                 <div className="md:flex-shrink-0">
                     <img className="h-48 w-full object-cover md:w-48" src="https://via.placeholder.com/150" alt="Imagem do Card" />
