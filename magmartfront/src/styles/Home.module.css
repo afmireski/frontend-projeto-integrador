@@ -1,0 +1,35 @@
+.containerHome {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('../../public/Firepals.png') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+    padding: 60px;
+    text-align: center;
+    margin-bottom: 2em;
+    background-color: #D64E24;
+    color: white;
+  }
+
+  .background {
+      /*of course with this solution you should remove the previous background image*/
+      position: fixed;
+      top: 0;
+      height: 100vh;
+      width: 100vw;
+      background-image: url(https://i.pinimg.com/736x/2a/a1/da/2aa1da060c0dfad146354e0cc06560c2.jpg);
+      background-size: cover;
+      /* Without z-index the background seems to cover the content*/
+      z-index: -1;
+  }
+
