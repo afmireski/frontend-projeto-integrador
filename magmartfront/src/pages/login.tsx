@@ -1,14 +1,26 @@
 // components/Login.js
 
-import React,{ useState } from 'react';
+import React,{ useState, useEffect } from 'react';
 import styles from '../styles/Login.module.css';
 import "../app/globals.css";
 import Image from 'next/image'
 import { useRouter } from 'next/router';
+import axios from 'axios';
+import GetAllPokemon from '../APIs/getAllPokemon';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  // const [id, ref_id, name, weight, height, image_url, experience, types, tier, price, in_stock] = GetAllPokemon();
+
+  // axios.get('http://localhost:3001/pokemon')
+  // .then(response => {
+  //     setMessage(response.data); 
+  //     console.log(response.data);
+  // })
+  // .catch(error => {
+  //     console.error(error);
+  // });
 
   const handleLogin = (e) => {
     e.preventDefault();
