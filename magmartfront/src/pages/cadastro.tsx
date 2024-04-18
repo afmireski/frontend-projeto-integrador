@@ -4,22 +4,57 @@ import React,{ useState } from 'react';
 import styles from '../styles/Cadastro.module.css';
 import "../app/globals.css";
 import Image from 'next/image'
+import axios from 'axios'; // Importe o Axios para fazer requisições HTTP
 import { useRouter } from 'next/router';
 
-export default function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+export default function Cadastrar() {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [birthDate, setBirthDate] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const router = useRouter();
+  
+    const handleCadastro = async (e) => {
+      e.preventDefault();
+  
+      // Verifique se as senhas coincidem
+      if (password !== confirmPassword) {
+        console.error('As senhas não coincidem');
+        return;
+      }
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // Aqui você pode adicionar lógica para autenticar o usuário
-    console.log('Usuário:', username);
-    console.log('Senha:', password);
-  };
+
+  
+      // Dados a serem enviados para o backend
+      const userData = {
+        name: name,
+        email: email,
+        phone: `+55`+phone,
+        birth_date: new Date(birthDate),
+        password: password,
+        confirm_password: confirmPassword,
+      };
+  
+      try {
+        // Faça uma requisição POST para a rota de criação de usuário no backend
+        const response = await axios.post('http://localhost:3001/users/new', userData);
+  
+        // Se a requisição for bem-sucedida, redirecione para a página de login
+        console.log('Usuário cadastrado com sucesso:', response.data);
+        router.push('/login'); // Redirecione para a página de login
+      } catch (error) {
+        // Se ocorrer um erro, lide com ele (exiba uma mensagem de erro, etc.)
+        console.error('Erro ao cadastrar usuário:', error);
+      }
+    };
+  
+  
 
   return (
     <div className={styles.containerLogin}>
-      <form onSubmit={handleLogin} className={styles.form} >
+      <form onSubmit={handleCadastro} className={styles.form} >
         <div className='flex flex-col h-full w-10/12 justify-center items-center'>
           <div className='flex flex-col h-full w-full justify-center items-center p-3'>
             <h2 className='text-2xl font-bold text-white'>CADASTRO</h2>
@@ -33,8 +68,8 @@ export default function Login() {
                       type="text"
                       className={styles.myinput}
                       id="nome"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                       placeholder="Nome"
                     />
                   </div>
@@ -45,8 +80,8 @@ export default function Login() {
                       className={styles.myinput}
                       type="email"
                       id="email"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       placeholder="E-mail"
                     />
                   </div>
@@ -71,8 +106,8 @@ export default function Login() {
                       type="text"
                       className={styles.myinput}
                       id="numero"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
                       placeholder="Telefone"
                     />
                   </div>
@@ -83,8 +118,8 @@ export default function Login() {
                       className="w-[13.5rem] p-1 mb-4 border border-gray-300 rounded-lg opacity-50 text-black"
                       type="date"
                       id="Nascimento"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      value={birthDate}
+                      onChange={(e) => setBirthDate(e.target.value)}
                       placeholder="Data de Nascimento"
                     />
                   </div>
@@ -94,10 +129,10 @@ export default function Login() {
                     <input
                       className={styles.myinput}
                       type="password"
-                      id="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Senha"
+                      id="confirmPassword"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      placeholder="Confirmar Senha"
                     />
                   </div>
                 </div>

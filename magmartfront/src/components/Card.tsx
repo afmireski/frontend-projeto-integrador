@@ -13,8 +13,8 @@ import PropTypes from 'prop-types';
 async function Card( id: string, name: string, img_url: string, price: number ) {
 
     return (
-        <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
-            <div className="md:flex">
+        <div className=" bg-white rounded-md w-[200px] shadow-md overflow-hidden md:max-w-2xl inline-block mr-4 mb-4">
+            <div className="md:flex ">
                 <div className="md:flex-shrink-0">
                     <img className="h-48 w-full object-cover md:w-48" src={img_url} alt="Imagem do Card" />
                 </div>
@@ -23,8 +23,14 @@ async function Card( id: string, name: string, img_url: string, price: number ) 
                     <p className="mt-2 text-gray-500">{price}</p>
                 </div>
             </div>
+            <div className="p-4">
+                <div className="uppercase tracking-wide text-sm text-[#D64E24] font-semibold">{title}</div>
+                <p className="mt-2 text-gray-500">{description}</p>
+            </div>
         </div>
     );
 }
+
+
 
 export default Card;
