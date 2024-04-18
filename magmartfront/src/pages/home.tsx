@@ -24,12 +24,14 @@ export type PokemonData = {
     types: type[];
 }
 
-
-
 function Home() {
 
     const [pokemonArray, setPokemonArray] = useState<PokemonData[]>([]);
     let data;
+    const router = useRouter();
+    const redirectToProductPage = (parameter: string) => {
+        window.location.href = `product/${parameter}`;
+    };
     useEffect(() => {
         async function getdados() {
             try {
@@ -77,18 +79,18 @@ function Home() {
                     //             <li>{tPok.name}</li>
                     //         ))}
                     //     </ul>
-                    // // </li>
+                    //    </li>
                     // <Card id={pokeObj.id} name={pokeObj.name} img_url={pokeObj.image_url} price={pokeObj.price}></Card>
-                    <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+                    <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl" onClick={() => redirectToProductPage(pokeObj.id)}>
                         <div className="md:flex">
                             <div className="md:flex-shrink-0">
                                 <img className="h-48 w-full object-cover md:w-48" src={pokeObj.image_url} alt="Imagem do Card" />
                             </div>
                             <div className="p-8">
                                 <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{pokeObj.name}</div>
-                                <p className="mt-2 text-blue-500"> {pokeObj.types.map((tPok) => (
+                                <div className="mt-2 text-blue-500"> {pokeObj.types.map((tPok) => (
                                     <p>{tPok.name}</p>
-                                ))}</p>
+                                ))}</div>
                                 <p className="mt-2 text-gray-500"> Price: P${pokeObj.price}</p>
                             </div>
                         </div>
