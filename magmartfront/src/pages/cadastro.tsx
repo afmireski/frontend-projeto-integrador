@@ -24,26 +24,29 @@ export default function Cadastrar() {
         console.error('As senhas não coincidem');
         return;
       }
+
+
   
       // Dados a serem enviados para o backend
       const userData = {
         name: name,
         email: email,
-        phone: phone,
-        birthDate: birthDate,
+        phone: `+55`+phone,
+        birth_date: new Date(birthDate),
         password: password,
+        confirm_password: confirmPassword,
       };
   
       try {
         // Faça uma requisição POST para a rota de criação de usuário no backend
-        const response = await axios.post('/api/users', userData);
+        const response = await axios.post('http://localhost:3001/users/new', userData);
   
         // Se a requisição for bem-sucedida, redirecione para a página de login
         console.log('Usuário cadastrado com sucesso:', response.data);
         router.push('/login'); // Redirecione para a página de login
       } catch (error) {
         // Se ocorrer um erro, lide com ele (exiba uma mensagem de erro, etc.)
-        console.error('Erro ao cadastrar usuário:', error.response.data);
+        console.error('Erro ao cadastrar usuário:', error);
       }
     };
   
@@ -126,7 +129,7 @@ export default function Cadastrar() {
                     <input
                       className={styles.myinput}
                       type="password"
-                      id="password"
+                      id="confirmPassword"
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       placeholder="Confirmar Senha"
