@@ -3,7 +3,7 @@
 import React,{ useState } from 'react';
 import styles from '../styles/EditarPerfil.module.css';
 import "../app/globals.css";
-import Navbar from '../components/navbar';
+import Navbar from '../components/Navbar';
 
 export default function EditarPerfil() {
   const [username, setUsername] = useState('');
