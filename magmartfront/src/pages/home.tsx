@@ -70,7 +70,7 @@ function Home() {
   return (
       <div>
           <Navbar />
-          <div className="flex flex-row justify-center items-center gap-4 p-8">
+          <div className="flex flex-row justify-center items-center gap-4 p-8 flex-wrap overflow-hidden">
             {pokemonArray.map((pokeObj) => (
                     // I am no longer using index as key, as I have unique id value.
                     // <li key={pokeObj.reference_id}>
