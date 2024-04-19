@@ -9,6 +9,7 @@ import Card from '../components/Card';
 import Footer from '../components/Footer';
 import PropTypes from 'prop-types';
 import GetPokemon from '@/APIs/getPokemon';
+import { types } from 'util';
 
 export type PokemonData = {
     id: number;
@@ -22,8 +23,19 @@ export type PokemonData = {
     in_stock: number;
 }
 
+export type Query = {
+    data: string;
+}
 
 function Product() {
+    const router = useRouter();
+    const received_id = router.query;
+    //const [pok_id, setPokId] = useState('');
+    // const queryString = Object.keys(received_id || {})
+    // .map((key) => `${received_id}`)
+    // .join('&');
+    //console.log(pok_id);
+    console.log(router.query.parameter);
     const [name, setName] = useState('');
     const [weight, setWeight] = useState(1);
     const [height, setHeight] = useState(1);
@@ -39,22 +51,25 @@ function Product() {
     useEffect(() => {
         async function getdados() {
             try {
-                data =  await GetPokemon('19c9e5a7-baa3-4286-953e-31e869c2b922');
-                setName(data.name);
-                setWeight(data.weight);
-                setHeight(data.height);
-                setExp(data.experience);
-                setPrice(data.price);
-                setStock(data.in_stock);
-                setImage(data.image_url);
-                if(data.types.length == 1)
-                    setType(data.types[0].name);
-                else
-                    setType((data.types.join));
-                setTierName(data.tier.name);
-                setMinExp(data.tier.minimal_experience);
-                setLimitExp(data.tier.limit_experience);
-                console.log(data)
+                //setPokId(queryString);
+                //if (typeof router.query.data === 'string') {
+                    data = await GetPokemon(router.query.parameter as string);
+                    setName(data.name);
+                    setWeight(data.weight);
+                    setHeight(data.height);
+                    setExp(data.experience);
+                    setPrice(data.price);
+                    setStock(data.in_stock);
+                    setImage(data.image_url);
+                    setType((data.types.reduce((types, type)=>{
+                        return types.concat(` ${type.name}`)
+                    },"")));
+                    setTierName(data.tier.name);
+                    setMinExp(data.tier.minimal_experience);
+                    setLimitExp(data.tier.limit_experience);
+                    console.log(data)
+                //}
+                
             } catch {
                 console.log('erro')
             }
