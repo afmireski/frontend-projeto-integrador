@@ -30,7 +30,11 @@ function Home() {
     let data;
     const router = useRouter();
     const redirectToProductPage = (parameter: string) => {
-        window.location.href = `product/${parameter}`;
+        //window.location.href = `product/${parameter}`;
+        router.push({
+            pathname: '/product',
+            query: { data: parameter },
+        });
     };
     useEffect(() => {
         async function getdados() {

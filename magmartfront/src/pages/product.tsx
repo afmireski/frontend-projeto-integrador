@@ -22,8 +22,20 @@ export type PokemonData = {
     in_stock: number;
 }
 
+export type Query = {
+    data: string;
+}
 
 function Product() {
+    const router = useRouter();
+    const received_id = router.query;
+    const [pok_id, setPokId] = useState('');
+    const queryString = Object.keys(received_id || {})
+    .map((key) => `${received_id}`)
+    .join('&');
+    //console.log(pok_id);
+    //setPokId(queryString);
+    console.log(router.query.data);
     const [name, setName] = useState('');
     const [weight, setWeight] = useState(1);
     const [height, setHeight] = useState(1);
@@ -39,7 +51,7 @@ function Product() {
     useEffect(() => {
         async function getdados() {
             try {
-                data =  await GetPokemon('19c9e5a7-baa3-4286-953e-31e869c2b922');
+                data =  await GetPokemon(queryString);
                 setName(data.name);
                 setWeight(data.weight);
                 setHeight(data.height);
