@@ -33,7 +33,7 @@ function Home() {
         //window.location.href = `product/${parameter}`;
         router.push({
             pathname: '/product',
-            query: { data: parameter },
+            query: { parameter },
         });
     };
     useEffect(() => {
