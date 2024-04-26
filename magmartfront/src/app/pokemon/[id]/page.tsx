@@ -12,7 +12,7 @@ import GetPokemon from '@/APIs/getPokemon';
 import { types } from 'util';
 
 export type PokemonData = {
-    id: number;
+    id: string;
     reference_id: number; 
     name: string;
     weight: number;

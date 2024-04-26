@@ -11,23 +11,9 @@ import PropTypes from 'prop-types';
 import GetPokemon from '@/APIs/getPokemon';
 import { types } from 'util';
 
-export type PokemonData = {
-    id: number;
-    reference_id: number; 
-    name: string;
-    weight: number;
-    height: number;
-    image_url: string;
-    experience: number;
-    price: number;
-    in_stock: number;
-}
-
-export type Query = {
-    data: string;
-}
-
 function Product({params}: {params: {id: string}}) {
+    const [pok_id, setPokId] = useState('');
+    const [ref_id, setRefId] = useState(1);
     const [name, setName] = useState('');
     const [weight, setWeight] = useState(1);
     const [height, setHeight] = useState(1);
@@ -46,6 +32,8 @@ function Product({params}: {params: {id: string}}) {
                 //setPokId(queryString);
                 //if (typeof router.query.data === 'string') {
                     data = await GetPokemon(params.id);
+                    setPokId(data.id);
+                    setRefId(data.reference_id);
                     setName(data.name);
                     setWeight(data.weight);
                     setHeight(data.height);
@@ -70,13 +58,6 @@ function Product({params}: {params: {id: string}}) {
         getdados();
     }, []);
 
-
-
-
-
-
-
-
   return (
       <div>
           <AdmNavbar />
@@ -87,6 +68,8 @@ function Product({params}: {params: {id: string}}) {
             <div className='description'>
                 <p className={`m-0 max-w-[200ch] text-sm text-balance`}>
                     {name}<br/>
+                    Id: {pok_id}<br/>
+                    Número: {ref_id}<br/>
                     Type: {type}
                 </p>
                 <p className={`m-0 max-w-[100ch] text-sm text-balance`}>

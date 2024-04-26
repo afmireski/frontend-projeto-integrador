@@ -1,19 +1,5 @@
 import axios from 'axios';
-
-export type type = {
-    id: string;
-    name: string;
-    reference_id: number;
-}
-
-export type PokemonData = {
-    id: string;
-    reference_id: number; 
-    name: string;
-    image_url: string;
-    price: number;
-    types: type[];
-}
+import { PokemonData } from '@/components/myTypes/PokemonTypes';
 
 function GetAllPokemon() {
     return Promise.resolve(axios.get<PokemonData[]>('http://localhost:3001/pokemon'))
