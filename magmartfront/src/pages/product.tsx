@@ -30,12 +30,6 @@ export type Query = {
 function Product() {
     const router = useRouter();
     const received_id = router.query;
-    //const [pok_id, setPokId] = useState('');
-    // const queryString = Object.keys(received_id || {})
-    // .map((key) => `${received_id}`)
-    // .join('&');
-    //console.log(pok_id);
-    console.log(router.query.parameter);
     const [name, setName] = useState('');
     const [weight, setWeight] = useState(1);
     const [height, setHeight] = useState(1);

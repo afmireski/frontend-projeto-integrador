@@ -30,7 +30,6 @@ function Home() {
     let data;
     const router = useRouter();
     const redirectToProductPage = (parameter: string) => {
-        //window.location.href = `product/${parameter}`;
         router.push({
             pathname: '/product',
             query: { parameter },
@@ -40,23 +39,6 @@ function Home() {
         async function getdados() {
             try {
                 data =  await GetAllPokemon();
-                // for(var index in data){
-                //     setId<index>(data[index]);
-                //     console.log(index)
-                // }
-                // if(data[0].types.length == 1)
-                //     setType(data[0].types[0].name);
-                // else
-                //     setType((data[0].types[0].join));
-                //for(var obj of data){
-
-                    // const fetchedData: PokemonData[] = [
-                    
-                    //     // { property1: "Value 1", property2: 42 },
-                    //     // { property1: "Value 2", property2: 24 },
-                    // ];
-                    // setPokemonArray(fetchedData);
-                //}
                 const newArrayCopy: PokemonData[] = [...data];
                 setPokemonArray(newArrayCopy);
                 console.log(data)
@@ -72,19 +54,6 @@ function Home() {
           <Navbar />
           <div className="flex flex-row justify-center items-center gap-4 p-8 flex-wrap overflow-hidden">
             {pokemonArray.map((pokeObj) => (
-                    // I am no longer using index as key, as I have unique id value.
-                    // <li key={pokeObj.reference_id}>
-                    //     <span>name: {pokeObj.name}</span>{" "}
-                    //     {/* <span>age: {friend.age}</span> */}
-                    //     <br />
-                    //     <span>Types</span>
-                    //     <ul>
-                    //         {pokeObj.types.map((tPok) => (
-                    //             <li>{tPok.name}</li>
-                    //         ))}
-                    //     </ul>
-                    //    </li>
-                    // <Card id={pokeObj.id} name={pokeObj.name} img_url={pokeObj.image_url} price={pokeObj.price}></Card>
                     <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl" onClick={() => redirectToProductPage(pokeObj.id)}>
                         <div className="md:flex">
                             <div className="md:flex-shrink-0">
@@ -100,9 +69,7 @@ function Home() {
                         </div>
                     </div>
                 ))}
-              {/* <Card title="Título do Card" description="Descrição do card. Aqui você pode colocar mais informações sobre o conteúdo." />
-              <Card title="Outro Título" description="Descrição do card. Mais informações sobre o conteúdo." />
-              <Card title="Um terceiro título" description="Descrição do card. Mais informações sobre o conteúdo." /> */}
+              {}
           </div>
           <Footer />
       </div>

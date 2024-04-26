@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import styles from '../styles/CadPokemon.module.css';
-import "../app/globals.css";
-import Navbar from '../components/Navbar';
+import { useRouter } from 'next/router';
+import styles from '../../../styles/CadPokemon.module.css';
+import "../../../app/globals.css";
+import Navbar from '../../../components/Navbar';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -9,11 +10,13 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 export default function EditarPokemon() {
+    
     const [tierId, setTierId] = useState('');
     const [price, setPrice] = useState('');
     const [initialStock, setInitialStock] = useState('');
-    const [pokemonId, setPokemonId] = useState(''); // Alteração aqui
-
+    const [pokemonId, setPokemonId] = useState('');
+    
+    const router = useRouter();
     const handleEditPokemon = async () => {
         try {
             // Dados do Pokémon a serem enviados para o backend

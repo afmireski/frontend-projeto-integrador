@@ -39,7 +39,7 @@ export default function Cadastrar() {
   
       try {
         // Faça uma requisição POST para a rota de criação de usuário no backend
-        const response = await axios.post('http://localhost:3001/users/new', userData);
+        const response = await axios.post(`${process.env.API_URL}/users/new`, userData);
   
         // Se a requisição for bem-sucedida, redirecione para a página de login
         console.log('Usuário cadastrado com sucesso:', response.data);
