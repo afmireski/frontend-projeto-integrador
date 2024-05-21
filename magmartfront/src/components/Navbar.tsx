@@ -18,7 +18,7 @@ function Navbar() {
                                 <a href="/profile" className="text-gray-300 hover:bg-[#d63924] hover:text-white px-3 py-2 rounded-md text-sm font-medium">Perfil</a>
                             </div>
                         </div>
-                        <Button href="/profile">
+                        <Button href="/cart">
                             <Image src="/CartIcon.png" alt="Logo" width={40} height={40} />
                         </Button>
                     </div>

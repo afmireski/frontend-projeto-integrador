@@ -1,12 +1,15 @@
+// ./src/app/cart/page.tsx
+"use client";
+
 import React, { useState, useEffect } from 'react';
-import styles from '../styles/Home.module.css';
-import "../app/globals.css";
+import styles from '@/styles/Home.module.css';
+import "@/app/globals.css";
 import Image from 'next/image';
-import { useRouter } from 'next/router';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import getUserCart, { CartData, CartItem } from '../APIs/getUserCart';
-import CardCarrinho from '../components/CardCarrinho';
+import { useRouter } from 'next/navigation';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import getUserCart, { CartData} from '@/APIs/getUserCart';
+import CardCarrinho from '@/components/CardCarrinho';
 
 function Carrinho() {
     const [cartData, setCartData] = useState<CartData | null>(null);
