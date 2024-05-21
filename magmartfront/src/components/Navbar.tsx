@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { Button } from '@mui/material';
 
 function Navbar() {
     return (
@@ -8,7 +9,7 @@ function Navbar() {
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center">
                         <div className="flex-shrink-0">
-                            <Image src="/LOGO.png" alt="Logo" width={120} height={40} />
+                            <Image src="/LOGO.png" alt="Logo" width={150} height={50} />
                         </div>
                         <div className="hidden md:block">
                             <div className="ml-10 flex items-baseline space-x-4">
@@ -17,6 +18,9 @@ function Navbar() {
                                 <a href="/profile" className="text-gray-300 hover:bg-[#d63924] hover:text-white px-3 py-2 rounded-md text-sm font-medium">Perfil</a>
                             </div>
                         </div>
+                        <Button href="/profile">
+                            <Image src="/CartIcon.png" alt="Logo" width={40} height={40} />
+                        </Button>
                     </div>
                 </div>
             </div>
