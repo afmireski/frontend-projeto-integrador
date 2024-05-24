@@ -16,7 +16,7 @@ export default function CadPokemon() {
     const [initialStock, setInitialStock] = useState('');
     const [name, setName] = useState('');
 
-  const handleCadastro = async (e) => {
+  const handleCadastro = async (e: any) => {
     e.preventDefault();
 
     // Dados do Pokémon a serem enviados para o backend

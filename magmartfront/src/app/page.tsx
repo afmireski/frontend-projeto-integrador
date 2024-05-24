@@ -6,15 +6,12 @@ import React,{ useState, useEffect } from 'react';
 import styles from '@/styles/Login.module.css';
 import "@/app/globals.css";
 import Image from 'next/image'
-import { useRouter } from 'next/router';
-import axios from 'axios';
-import GetAllPokemon from '@/APIs/getAllPokemon';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = (e) => {
+  const handleLogin = (e: any) => {
     e.preventDefault();
     // Aqui você pode adicionar lógica para autenticar o usuário
     console.log('Usuário:', username);

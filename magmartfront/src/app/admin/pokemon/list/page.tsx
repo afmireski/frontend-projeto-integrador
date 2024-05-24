@@ -9,21 +9,7 @@ import Card from '@/components/Card';
 import Footer from '@/components/Footer';
 import GetAllPokemon from '@/APIs/getAllPokemon';
 import { type } from 'os';
-
-export type type = {
-    id: string;
-    name: string;
-    reference_id: number;
-}
-
-export type PokemonData = {
-    id: string;
-    reference_id: number; 
-    name: string;
-    image_url: string;
-    price: number;
-    types: type[];
-}
+import { PokemonData } from '@/components/myTypes/PokemonTypes';
 
 function Home() {
 
@@ -48,21 +34,21 @@ function Home() {
           <AdmNavbar />
           <div className="flex flex-row justify-center items-center gap-4 p-8 flex-wrap overflow-hidden">
             {pokemonArray.map((pokeObj) => (
-                    <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
-                        <div className="md:flex">
-                            <div className="md:flex-shrink-0">
-                            <Link href={`/admin/pokemon/${pokeObj.id}`}><img className="h-48 w-full object-cover md:w-48" src={pokeObj.image_url} alt="Imagem do Card" /></Link>
-                            </div>
-                            <div className="p-8">
-                                <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold"><Link href={`/admin/pokemon/${pokeObj.id}`}>{pokeObj.name}</Link></div>
-                                <div className="mt-2 text-blue-500"> {pokeObj.types.map((tPok) => (
-                                    <p>{tPok.name}</p>
-                                ))}</div>
-                                <p className="mt-2 text-gray-500"> Price: P${pokeObj.price}</p>
-                            </div>
+                <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+                    <div className="md:flex">
+                        <div className="md:flex-shrink-0">
+                        <Link href={`/admin/pokemon/${pokeObj.id}`}><img className="h-48 w-full object-cover md:w-48" src={pokeObj.image_url} alt="Imagem do Card" /></Link>
+                        </div>
+                        <div className="p-8">
+                            <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold"><Link href={`/admin/pokemon/${pokeObj.id}`}>{pokeObj.name}</Link></div>
+                            <div className="mt-2 text-blue-500"> {pokeObj.types.map((tPok) => (
+                                <p>{tPok.name}</p>
+                            ))}</div>
+                            <p className="mt-2 text-gray-500"> Price: P${pokeObj.price}</p>
                         </div>
                     </div>
-                ))}
+                </div>
+            ))}
           </div>
           <Footer />
       </div>

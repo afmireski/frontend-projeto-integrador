@@ -10,6 +10,9 @@ import Footer from '@/components/Footer';
 import PropTypes from 'prop-types';
 import GetPokemon from '@/APIs/getPokemon';
 import { types } from 'util';
+import { Button } from '@mui/material';
+import DeletePokemon from '@/APIs/deletePokemon'; 
+import Link from 'next/link';
 
 function Product({params}: {params: {id: string}}) {
     const [pok_id, setPokId] = useState('');
@@ -58,6 +61,10 @@ function Product({params}: {params: {id: string}}) {
         getdados();
     }, []);
 
+    const handleSearch = async (e: any) => {
+        DeletePokemon(pok_id)
+    }
+
   return (
       <div>
           <AdmNavbar />
@@ -70,20 +77,22 @@ function Product({params}: {params: {id: string}}) {
                     {name}<br/>
                     Id: {pok_id}<br/>
                     Número: {ref_id}<br/>
-                    Type: {type}
+                    Tipo: {type}
                 </p>
                 <p className={`m-0 max-w-[100ch] text-sm text-balance`}>
-                    Exp: {exp} <br/>
-                    Weight: {weight}<br/>
-                    Height: {height}<br/>
+                    Experiência: {exp} <br/>
+                    Peso: {weight}<br/>
+                    Altura: {height}<br/>
                     Tier: {tier_name}<br/>
-                    Minimal experience required: {min_exp}<br/>
-                    Limit of experience: {limit_exp}
+                    Experiência mínima requerida: {min_exp}<br/>
+                    Limite de experiência: {limit_exp}
                 </p>
                 <p className={`m-0 max-w-[100ch] text-sm text-balance`}>
-                    Price: {price} <br/>
-                    In Stock: {stock}
+                    Preço: {price} <br/>
+                    Quantidade: {stock}
                 </p>
+                <br/>
+                <Button onClick={handleSearch} variant="contained"> <Link href={"/admin/pokemon/list"}>Deletar Pokemon</Link> </Button>
             </div> 
           </div>
           <Footer />

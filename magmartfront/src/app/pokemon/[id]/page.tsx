@@ -87,19 +87,19 @@ function Product({params}: {params: {id: string}}) {
             <div className='description'>
                 <p className={`m-0 max-w-[200ch] text-sm text-balance`}>
                     {name}<br/>
-                    Type: {type}
+                    Tipo: {type}
                 </p>
                 <p className={`m-0 max-w-[100ch] text-sm text-balance`}>
-                    Exp: {exp} <br/>
-                    Weight: {weight}<br/>
-                    Height: {height}<br/>
+                    Experiência: {exp} <br/>
+                    Peso: {weight}<br/>
+                    Altura: {height}<br/>
                     Tier: {tier_name}<br/>
-                    Minimal experience required: {min_exp}<br/>
-                    Limit of experience: {limit_exp}
+                    Experiência mínima requerida: {min_exp}<br/>
+                    Limite de experiência: {limit_exp}
                 </p>
                 <p className={`m-0 max-w-[100ch] text-sm text-balance`}>
-                    Price: {price} <br/>
-                    In Stock: {stock}
+                    Preço: {price} <br/>
+                    Quantidade: {stock}
                 </p>
             </div> 
           </div>

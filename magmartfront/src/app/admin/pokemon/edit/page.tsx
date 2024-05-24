@@ -8,6 +8,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import EditPokemon from '@/APIs/editPokemon';
+import { PokemonData, type } from '@/components/myTypes/PokemonTypes';
 
 export default function EditarPokemon() {
     const [tierId, setTierId] = useState('');

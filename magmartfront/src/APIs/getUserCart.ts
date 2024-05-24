@@ -1,20 +1,5 @@
 import axios from 'axios';
-
-export type Item = {
-  id: string;
-  name: string;
-  quantity: number;
-  price: number;
-};
-
-export type CartData = {
-  id: string;
-  user_id: string;
-  is_active: boolean;
-  expires_in: string;
-  total: number;
-  items: Item[];
-};
+import {CartData} from '@/components/myTypes/CartTypes';
 
 function GetUserCart(userId: string) {
   return axios.get<CartData>(`http://localhost:3001/users/${userId}/cart`)
