@@ -1,4 +1,4 @@
-export type tier = {
+export type UserData = {
     id: string;
     name: string;
     phone: string;

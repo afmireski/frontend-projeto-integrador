@@ -2,13 +2,12 @@
 import React, { useState } from 'react';
 import styles from '@/styles/CadPokemon.module.css';
 import "@/app/globals.css";
-import Navbar from '@/components/Navbar';
+import AdmNavbar from '@/components/AdmNavbar';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import EditPokemon from '@/APIs/editPokemon';
 import { PokemonData, type } from '@/components/myTypes/PokemonTypes';
 
 export default function EditarPokemon() {
@@ -20,7 +19,7 @@ export default function EditarPokemon() {
     const handleEditPokemon = async () => {
         try {
             // Dados do Pokémon a serem enviados para o backend
-            const pokemonData = {
+            const convertedData = {
                 tier_id: parseInt(tierId), // Convertendo para inteiro
                 price: parseInt(price), // Convertendo para ponto flutuante
                 stock: parseInt(initialStock) // Convertendo para inteiro
@@ -32,7 +31,7 @@ export default function EditarPokemon() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(pokemonData),
+                body: JSON.stringify(convertedData),
             });
 
             // Verifica se a requisição foi bem-sucedida
@@ -50,7 +49,7 @@ export default function EditarPokemon() {
     return (
         <div className={styles.mainLogin}>
             <div className='w-full'>
-                <Navbar />
+                <AdmNavbar />
             </div>
             <div className={styles.ContainerCadPokemon}>
                 <form className={styles.form} >
@@ -85,8 +84,8 @@ export default function EditarPokemon() {
                                                     onChange={(e) => setTierId(e.target.value)}
                                                     sx={{ color: 'white', borderColor: 'white', '&:before': { borderColor: 'white' }, '&:after': { borderColor: 'white' } }}
                                                 >
-                                                    <MenuItem value={1}>Tier 1</MenuItem>
-                                                    <MenuItem value={2}>Tier 2</MenuItem>
+                                                    <MenuItem value={1}>Comum</MenuItem>
+                                                    <MenuItem value={2}>Inicial</MenuItem>
                                                 </Select>
                                             </FormControl>
                                         </Box>
