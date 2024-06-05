@@ -1,15 +1,9 @@
 'use client'
 import React,{ useEffect, useState } from 'react';
-import styles from '@/styles/Product.module.css';
 import "@/app/globals.css";
-import Image from 'next/image'
-import { useRouter } from 'next/router';
 import Navbar from '@/components/Navbar';
-import Card from '@/components/Card';
 import Footer from '@/components/Footer';
-import PropTypes from 'prop-types';
 import GetPokemon from '@/APIs/getPokemon';
-import { types } from 'util';
 
 export type PokemonData = {
     id: string;

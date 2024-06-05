@@ -1,6 +1,8 @@
 export type UserData = {
-    id: string;
-    name: string;
-    phone: string;
-    email: string;
+    BirthDate: string;
+    Id: string;
+    Name: string;
+    Phone: string;
+    Email: string;
+    Role: string;
 }

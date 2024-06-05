@@ -2,23 +2,12 @@
 import React,{ useEffect, useState } from 'react';
 import styles from '@/styles/Product.module.css';
 import "@/app/globals.css";
-import Image from 'next/image'
-import { useRouter } from 'next/router';
 import AdmNavbar from '@/components/AdmNavbar';
-import Card from '@/components/Card';
 import Footer from '@/components/Footer';
-import PropTypes from 'prop-types';
-import { types } from 'util';
 import { Button } from '@mui/material'; 
 import Link from 'next/link';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import GetUserById from '@/APIs/getUserById';
 import DeleteUser from '@/APIs/deleteUser';
-import { UserData } from '@/components/myTypes/UserTypes';
 import axios from 'axios';
 
 function Product({params}: {params: {id: string}}) {
@@ -26,6 +15,8 @@ function Product({params}: {params: {id: string}}) {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
+    const [birth, setBirth] = useState('');
+    const [role, setRole] = useState('');
     let data;
     useEffect(() => {
         async function getdados() {
@@ -33,10 +24,12 @@ function Product({params}: {params: {id: string}}) {
                 //setPokId(queryString);
                 //if (typeof router.query.data === 'string') {
                     data = await GetUserById(params.id);
-                    setUserId(data.id);
-                    setName(data.name);
-                    setPhone(data.phone);
-                    setEmail(data.email);
+                    setUserId(data.Id);
+                    setName(data.Name);
+                    setPhone(data.Phone);
+                    setEmail(data.Email);
+                    setBirth(data.BirthDate);
+                    setRole(data.Role);
                     console.log(data)
                 //}
                 
@@ -61,9 +54,9 @@ function Product({params}: {params: {id: string}}) {
         try {
             // Envia os dados do usuário para a API para atualização
             const response = await axios.patch(`http://localhost:3001/users/${params.id}/update`, {
-                name: name,
-                email: email,
-                phone: "+55"+phone,
+                name: patchedName,
+                email: patchedEmail,
+                phone: "+55"+patchedPhone,
             });
 
             // Verifica se a atualização foi bem-sucedida
@@ -76,34 +69,76 @@ function Product({params}: {params: {id: string}}) {
             console.error('Erro ao atualizar o perfil:', error);
         }
     };
-  return (
-      <div>
-          <AdmNavbar />
-          <div className="flex flex-row justify-center min-h-screen items-center gap-4 p-8">
-            <div>
-                
-            </div>
+    return (
+        <div>
+            <AdmNavbar />
+            <div className="flex flex-row justify-center min-h-screen items-center gap-4 p-8">
+                <div className={styles.ContainerCadPokemon}>
+                    <form className={styles.form} >
+                        <div className='flex flex-col h-full w-10/12 justify-center items-center'>
+                            <div className='flex flex-col h-full w-full justify-center items-center p-3'>
+                                <h2 className='text-2xl font-bold text-black'>Editar Usuário</h2>
+                            </div>
+                            <div className='flex flex-col h-full w-full justify-center items-center'>
+                                <div className='flex flex-row h-full w-full  m-2 justify-center items-center'>                                    
+                                    <div className='flex flex-col h-full w-1/2 m-2 justify-center items-center'>
+                                        <div className='flex flex-row h-full w-full justify-center items-center'>
+                                            <div className=''>
+                                                <input
+                                                    type="string"
+                                                    className={styles.myinput}
+                                                    id="Name"
+                                                    value={patchedName}
+                                                    onChange={(e) => setPatchedName(e.target.value)}
+                                                    placeholder="Nome"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className='flex flex-row h-full w-full justify-center items-center'>
+                                            <div className="">
+                                                <input
+                                                    className={styles.myinput}
+                                                    type="string"
+                                                    id="Email"
+                                                    value={patchedEmail}
+                                                    onChange={(e) => setPatchedEmail(e.target.value)}
+                                                    placeholder="Email"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className='flex flex-row h-full w-full justify-center items-center'>
+                                            <div className="">
+                                                <input
+                                                    className={styles.myinput}
+                                                    type="string"
+                                                    id="Phone"
+                                                    value={patchedPhone}
+                                                    onChange={(e) => setPatchedPhone(e.target.value)}
+                                                    placeholder="Phone"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='flex flex-col justify-center items-center h-full w-full'>
+                                <div className='flex flex-col justify-center items-center h-full w-full'>
+                                    <button onClick={handleUpdateUser} className="bg-[#E7852B] h-full w-[65%] p-2 rounded-lg text-white" type="button">Editar Usuário</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             <div className='description'>
                 <p className={`m-0 max-w-[200ch] text-sm text-balance`}>
-                    {name}<br/>
-                    Id: {pok_id}<br/>
-                    Número: {ref_id}<br/>
-                    Tipo: {type}
+                    Id: {user_id}<br/>
+                    Nome: {name}<br/>
+                    Data de Nascimento: {birth}<br/>
+                    Telefone: {phone}<br/>
+                    Email: {email}<br/>
+                    Papel: {role}
                 </p>
-                <p className={`m-0 max-w-[100ch] text-sm text-balance`}>
-                    Experiência: {exp} <br/>
-                    Peso: {weight}<br/>
-                    Altura: {height}<br/>
-                    Tier: {tier_name}<br/>
-                    Experiência mínima requerida: {min_exp}<br/>
-                    Limite de experiência: {limit_exp}
-                </p>
-                <p className={`m-0 max-w-[100ch] text-sm text-balance`}>
-                    Preço: {price} <br/>
-                    Quantidade: {stock}
-                </p>
-                <br/>
-                <Button onClick={handleDelete} className="bg-[#E7852B] h-full w-[65%] p-2 rounded-lg text-white" variant="contained"> <Link href={"/admin/pokemon/list"}>Deletar Pokemon</Link> </Button>
+                <Button onClick={handleDelete} className="bg-[#E7852B] h-full w-[65%] p-2 rounded-lg text-white" variant="contained"> <Link href={"/admin/users/find"}>Deletar Usuário</Link> </Button>
             </div> 
           </div>
           <Footer />

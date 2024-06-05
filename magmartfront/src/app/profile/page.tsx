@@ -4,7 +4,6 @@ import styles from '@/styles/EditarPerfil.module.css';
 import "@/app/globals.css";
 import Navbar from '@/components/Navbar';
 import axios from 'axios'; // Importar Axios para fazer solicitações HTTP
-import EditUser from '@/APIs/editUser';
 
 export default function EditarPerfil() {
     const [name, setName] = useState('');

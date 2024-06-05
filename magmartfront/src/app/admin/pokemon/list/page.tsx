@@ -1,14 +1,10 @@
 "use client"
 import React,{ useState, useEffect } from 'react';
 import Link from 'next/link';
-import styles from '@/styles/Home.module.css';
 import "@/app/globals.css";
-import Image from 'next/image'
 import AdmNavbar from '@/components/AdmNavbar';
-import Card from '@/components/Card';
 import Footer from '@/components/Footer';
 import GetAllPokemon from '@/APIs/getAllPokemon';
-import { type } from 'os';
 import { PokemonData } from '@/components/myTypes/PokemonTypes';
 
 function Home() {

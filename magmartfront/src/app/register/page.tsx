@@ -144,7 +144,7 @@ export default function Cadastrar() {
           </div>
           <div className='flex flex-col justify-center items-center h-full w-full'>
             <div className='flex flex-col justify-center items-center h-full w-full'>
-              <button className="bg-[#E7852B] h-full w-[65%] p-2 rounded-lg text-white" type="submit"><Link href='/login'>Entrar</Link></button>
+              <button className="bg-[#E7852B] h-full w-[65%] p-2 rounded-lg text-white" type="submit"><Link href='/'>Entrar</Link></button>
             </div>
             <div className='flex flex-col justify-center items-center h-full w-full mt-5'>
               <button className="bg-[#ffffff] h-full w-10 p-2 rounded-full text-white" type="submit">
