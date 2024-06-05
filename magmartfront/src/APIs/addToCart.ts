@@ -9,9 +9,8 @@ async function addToCart(userId, pokemonId, quantity) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                UserId: userId.toString(),
-                PokemonId: pokemonId.toString(),
-                Quantity: parseInt(quantity),
+                pokemon_id: pokemonId.toString(),
+                quantity: parseInt(quantity),
             }),
         });
 

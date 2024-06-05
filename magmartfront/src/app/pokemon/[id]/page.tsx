@@ -6,7 +6,7 @@ import styles from '@/styles/Product.module.css';
 import "@/app/globals.css";
 import Image from 'next/image'
 import { useRouter } from 'next/router';
-import AdmNavbar from '@/components/AdmNavbar';
+import Navbar from '@/components/Navbar';
 import Card from '@/components/Card';
 import Footer from '@/components/Footer';
 import PropTypes from 'prop-types';
@@ -71,7 +71,7 @@ function Product({params}: {params: {id: string}}) {
 
   return (
       <div>
-          <AdmNavbar />
+          <Navbar />
           <div className="flex flex-row justify-center items-center gap-4 p-8">
             <div className='image'>
                 <img src={image} alt='test'></img>
