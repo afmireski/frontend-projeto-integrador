@@ -1,18 +1,12 @@
 'use client'
 import React,{ useEffect, useState } from 'react';
-import styles from '../styles/Product.module.css';
-import "../app/globals.css";
-import Image from 'next/image'
-import { useRouter } from 'next/router';
-import Navbar from '../components/Navbar';
-import Card from '../components/Card';
-import Footer from '../components/Footer';
-import PropTypes from 'prop-types';
+import "@/app/globals.css";
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import GetPokemon from '@/APIs/getPokemon';
-import { types } from 'util';
 
 export type PokemonData = {
-    id: number;
+    id: string;
     reference_id: number; 
     name: string;
     weight: number;
@@ -27,9 +21,7 @@ export type Query = {
     data: string;
 }
 
-function Product() {
-    const router = useRouter();
-    const received_id = router.query;
+function Product({params}: {params: {id: string}}) {
     const [name, setName] = useState('');
     const [weight, setWeight] = useState(1);
     const [height, setHeight] = useState(1);
@@ -47,7 +39,7 @@ function Product() {
             try {
                 //setPokId(queryString);
                 //if (typeof router.query.data === 'string') {
-                    data = await GetPokemon(router.query.parameter as string);
+                    data = await GetPokemon(params.id);
                     setName(data.name);
                     setWeight(data.weight);
                     setHeight(data.height);
@@ -89,19 +81,19 @@ function Product() {
             <div className='description'>
                 <p className={`m-0 max-w-[200ch] text-sm text-balance`}>
                     {name}<br/>
-                    Type: {type}
+                    Tipo: {type}
                 </p>
                 <p className={`m-0 max-w-[100ch] text-sm text-balance`}>
-                    Exp: {exp} <br/>
-                    Weight: {weight}<br/>
-                    Height: {height}<br/>
+                    Experiência: {exp} <br/>
+                    Peso: {weight}<br/>
+                    Altura: {height}<br/>
                     Tier: {tier_name}<br/>
-                    Minimal experience required: {min_exp}<br/>
-                    Limit of experience: {limit_exp}
+                    Experiência mínima requerida: {min_exp}<br/>
+                    Limite de experiência: {limit_exp}
                 </p>
                 <p className={`m-0 max-w-[100ch] text-sm text-balance`}>
-                    Price: {price} <br/>
-                    In Stock: {stock}
+                    Preço: {price} <br/>
+                    Quantidade: {stock}
                 </p>
             </div> 
           </div>

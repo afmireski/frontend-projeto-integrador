@@ -1,7 +1,8 @@
+"use client"
 import React, { useState } from 'react';
-import styles from '../styles/EditarPerfil.module.css';
-import "../app/globals.css";
-import Navbar from '../components/Navbar';
+import styles from '@/styles/EditarPerfil.module.css';
+import "@/app/globals.css";
+import Navbar from '@/components/Navbar';
 import axios from 'axios'; // Importar Axios para fazer solicitações HTTP
 
 export default function EditarPerfil() {
@@ -10,7 +11,7 @@ export default function EditarPerfil() {
     const [phone, setPhone] = useState('');
     const [userID, setuserId] = useState('');
 
-    const handleUpdateProfile = async (e) => {
+    const handleUpdateProfile = async (e: any) => {
         e.preventDefault();
 
         try {

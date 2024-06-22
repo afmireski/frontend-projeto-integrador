@@ -1,11 +1,9 @@
+"use client"
 import React,{ useState, useEffect } from 'react';
-import styles from '../styles/Home.module.css';
-import "../app/globals.css";
-import Image from 'next/image'
-import { useRouter } from 'next/router';
-import Navbar from '../components/Navbar';
-import Card from '../components/Card';
-import Footer from '../components/Footer';
+import Link from 'next/link';
+import "@/app/globals.css";
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import GetAllPokemon from '@/APIs/getAllPokemon';
 import { type } from 'os';
 
@@ -28,13 +26,6 @@ function Home() {
 
     const [pokemonArray, setPokemonArray] = useState<PokemonData[]>([]);
     let data;
-    const router = useRouter();
-    const redirectToProductPage = (parameter: string) => {
-        router.push({
-            pathname: '/product',
-            query: { parameter },
-        });
-    };
     useEffect(() => {
         async function getdados() {
             try {
@@ -54,13 +45,13 @@ function Home() {
           <Navbar />
           <div className="flex flex-row justify-center items-center gap-4 p-8 flex-wrap overflow-hidden">
             {pokemonArray.map((pokeObj) => (
-                    <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl" onClick={() => redirectToProductPage(pokeObj.id)}>
+                    <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
                         <div className="md:flex">
                             <div className="md:flex-shrink-0">
-                                <img className="h-48 w-full object-cover md:w-48" src={pokeObj.image_url} alt="Imagem do Card" />
+                            <Link href={`/pokemon/${pokeObj.id}`}><img className="h-48 w-full object-cover md:w-48" src={pokeObj.image_url} alt="Imagem do Card" /></Link>
                             </div>
                             <div className="p-8">
-                                <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{pokeObj.name}</div>
+                                <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold"><Link href={`/pokemon/${pokeObj.id}`}>{pokeObj.name}</Link></div>
                                 <div className="mt-2 text-blue-500"> {pokeObj.types.map((tPok) => (
                                     <p>{tPok.name}</p>
                                 ))}</div>
@@ -69,7 +60,6 @@ function Home() {
                         </div>
                     </div>
                 ))}
-              {}
           </div>
           <Footer />
       </div>
