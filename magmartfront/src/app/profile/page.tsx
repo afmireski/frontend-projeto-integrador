@@ -16,7 +16,7 @@ export default function EditarPerfil() {
 
         try {
             // Envia os dados do usuário para a API para atualização
-            const response = await axios.patch(`http://localhost:3001/users/${userID}/update`, {
+            const response = await axios.patch(`${process.env.API_URL}/users/${userID}/update`, {
                 name: name,
                 email: email,
                 phone: "+55"+phone,
