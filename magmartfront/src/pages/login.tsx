@@ -1,32 +1,45 @@
 // components/Login.js
 
-import React,{ useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from '../styles/Login.module.css';
 import "../app/globals.css";
-import Image from 'next/image'
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import GetAllPokemon from '../APIs/getAllPokemon';
+import Cookies from 'js-cookie';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  // const [id, ref_id, name, weight, height, image_url, experience, types, tier, price, in_stock] = GetAllPokemon();
+  const [loginError, setLoginError] = useState(''); // Estado para rastrear erros de login
+  const router = useRouter();
 
-  // axios.get('http://localhost:3001/pokemon')
-  // .then(response => {
-  //     setMessage(response.data); 
-  //     console.log(response.data);
-  // })
-  // .catch(error => {
-  //     console.error(error);
-  // });
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Aqui você pode adicionar lógica para autenticar o usuário
-    console.log('Usuário:', username);
-    console.log('Senha:', password);
+
+    try {
+      const response = await axios.post('http://localhost:3001/sign-in', {
+        email: username,
+        password: password,
+      });
+
+      const { accessToken } = response.data;
+
+      // Armazenar o token em um cookie
+      Cookies.set('token', accessToken, { expires: 1, secure: true, sameSite: 'strict' });
+
+      // Redirecionar o usuário para uma página protegida
+      router.push('/home');
+    } catch (error) {
+      console.error('Login failed:', error);
+
+      // Verifica se a resposta de erro contém "invalid credentials"
+      if (error.response && error.response.data.error_message === 'invalid password') {
+        setLoginError('senha incorreta');
+      } else {
+        setLoginError('Ocorreu um erro inesperado. Tente novamente mais tarde.');
+      }
+    }
   };
 
   return (
@@ -38,7 +51,7 @@ export default function Login() {
           </div>
           <div className='flex flex-col h-full w-full justify-center items-center'>
             <div className='flex flex-row h-full w-full justify-center items-center'>
-              <div className=''>
+              <div>
                 <input
                   type="email"
                   className={styles.myinput}
@@ -50,7 +63,7 @@ export default function Login() {
               </div>
             </div>
             <div className='flex flex-row h-full w-full justify-center items-center'>
-              <div className="">
+              <div>
                 <input
                   className={styles.myinput}
                   type="password"
@@ -61,6 +74,11 @@ export default function Login() {
                 />
               </div>
             </div>
+            {loginError && (
+              <div className='flex flex-row h-full w-full justify-center items-center'>
+                <p className='text-red-500'>{loginError}</p>
+              </div>
+            )}
             <div className='flex flex-row w-[70%] justify-start mb-5'>
               <div className='flex flex-row w-full justify-start mb-5'>
                 <input className='mr-2' type="checkbox" name="remember-me" id="remember"/>
