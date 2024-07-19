@@ -1,37 +1,44 @@
-// components/Login.js
-
 import React, { useState } from 'react';
 import styles from '../styles/Login.module.css';
 import "../app/globals.css";
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import { getIronSession } from 'iron-session';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [loginError, setLoginError] = useState(''); // Estado para rastrear erros de login
+  const [loginError, setLoginError] = useState('');
   const router = useRouter();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/APIs/login', {
+      const response = await axios.post('http://localhost:3001/sign-in', {
         email: username,
         password: password,
       });
 
-      if (response.status === 200) {
-        // Redirecionar o usuário para uma página protegida
-        router.push('/home');
-      }
+      const { accessToken } = response.data;
+
+      // Simulação da criação de sessão no lado do cliente
+      const session = await getIronSession({ password: process.env.SECRET_COOKIE_PASSWORD, cookieName: process.env.COOKIE_NAME });
+      session.user = { email: username };
+      await session.save();
+
+      // Armazenar o token em um cookie
+      Cookies.set('token', accessToken, { expires: 1, secure: true, sameSite: 'strict' });
+
+      // Redirecionar o usuário para uma página protegida
+      router.push('/home');
     } catch (error) {
       console.error('Login failed:', error);
 
-      // Verifica se a resposta de erro contém "invalid credentials"
-      if (error.response && error.response.data.message === 'Invalid credentials') {
-        setLoginError('senha incorreta');
+      if (error.response && error.response.data.error_message === 'invalid password') {
+        setLoginError('Senha incorreta');
       } else {
         setLoginError('Ocorreu um erro inesperado. Tente novamente mais tarde.');
       }
