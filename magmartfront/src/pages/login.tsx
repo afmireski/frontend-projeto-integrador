@@ -4,8 +4,10 @@ import "../app/globals.css";
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import Cookies from 'js-cookie';
+import { cookies } from 'next/headers';
 import { getIronSession } from 'iron-session';
+import { SessionData } from '@/components/myTypes/SessionTypes';
+
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -17,27 +19,25 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3001/sign-in', {
+      const response = await axios.post('/APIs/login', {
         email: username,
         password: password,
       });
 
-      const { accessToken } = response.data;
+      if (response.status === 200) {
+        // Define os cookies após o login bem-sucedido
+        await axios.post('/APIs/set-cookie', {
+          email: username,
+          username: 'Alison', // Exemplo, substitua pelo nome real do usuário
+        });
 
-      // Simulação da criação de sessão no lado do cliente
-      const session = await getIronSession({ password: process.env.SECRET_COOKIE_PASSWORD, cookieName: process.env.COOKIE_NAME });
-      session.user = { email: username };
-      await session.save();
-
-      // Armazenar o token em um cookie
-      Cookies.set('token', accessToken, { expires: 1, secure: true, sameSite: 'strict' });
-
-      // Redirecionar o usuário para uma página protegida
-      router.push('/home');
+        // Redirecionar o usuário para uma página protegida
+        router.push('/home');
+      }
     } catch (error) {
       console.error('Login failed:', error);
 
-      if (error.response && error.response.data.error_message === 'invalid password') {
+      if (error.response && error.response.data.error === 'Invalid credentials') {
         setLoginError('Senha incorreta');
       } else {
         setLoginError('Ocorreu um erro inesperado. Tente novamente mais tarde.');
