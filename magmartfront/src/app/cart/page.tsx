@@ -8,12 +8,13 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import getUserCart, { CartData, CartItem} from '@/APIs/getUserCart';
+import getUserCart from '@/APIs/getUserCart';
+import { CartData, CartItem} from '@/components/myTypes/CartType';
 import CardCarrinho from '@/components/CardCarrinho';
+import Link from 'next/link';
 
 function Carrinho() {
     const [cartData, setCartData] = useState<CartData | null>(null);
-    const router = useRouter();
 
     useEffect(() => {
         async function fetchCartData() {
@@ -27,6 +28,12 @@ function Carrinho() {
 
         fetchCartData();
     }, []);
+
+    const handlePurchase = () => {
+        //inserir remover item do carrinho por ID 
+        finishPurchase();
+        window.location.href='/purchases'
+    };
 
     return (
         <div>
@@ -44,7 +51,7 @@ function Carrinho() {
                             <div className="font-bold text-lg mb-2">
                                 {`Subtotal (${cartData?.items.length || 0} produtos) R$${cartData?.total || 0}`}
                             </div>
-                            <button className='bg-orange-600 w-full p-2 rounded-md'>
+                            <button className='bg-orange-600 w-full p-2 rounded-md' onClick={handlePurchase}>
                                 Fechar pedido
                             </button>
                         </div>

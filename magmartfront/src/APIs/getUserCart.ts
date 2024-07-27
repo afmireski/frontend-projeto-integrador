@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CartData } from '@/components/myTypes/CartTypes';
+import { CartData } from '@/components/myTypes/CartType';
 
 
 

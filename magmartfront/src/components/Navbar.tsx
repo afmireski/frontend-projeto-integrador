@@ -16,6 +16,7 @@ function Navbar() {
                                 <a href="/home" className="text-gray-300 hover:bg-[#d63924] hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
                                 <a href="/search" className="text-gray-300 hover:bg-[#d63924] hover:text-white px-3 py-2 rounded-md text-sm font-medium">Pesquisa</a>
                                 <a href="/profile" className="text-gray-300 hover:bg-[#d63924] hover:text-white px-3 py-2 rounded-md text-sm font-medium">Perfil</a>
+                                <a href="/purchases" className="text-gray-300 hover:bg-[#d63924] hover:text-white px-3 py-2 rounded-md text-sm font-medium">Minhas Compras</a>
                             </div>
                         </div>
                         <Button href="/cart">
