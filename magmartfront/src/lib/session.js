@@ -1,19 +1,9 @@
-// lib/session.js
+import { IronSessionOptions } from "iron-session";
 
-import { withIronSessionApiRoute, withIronSessionSsr } from 'iron-session/next';
-
-export const sessionOptions = {
-  password: process.env.SECRET_COOKIE_PASSWORD,
-  cookieName: 'myapp_session',
+export const sessionOptions: IronSessionOptions = {
+  password: process.env.SESSION_SECRET || "complex_password_at_least_32_characters_long",
+  cookieName: "your_app_session",
   cookieOptions: {
-    secure: process.env.NODE_ENV === 'production',
+    secure: process.env.NODE_ENV === "production",
   },
 };
-
-export function withSessionRoute(handler) {
-  return withIronSessionApiRoute(handler, sessionOptions);
-}
-
-export function withSessionSsr(handler) {
-  return withIronSessionSsr(handler, sessionOptions);
-}

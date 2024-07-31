@@ -1,10 +1,13 @@
 "use client"
 import React,{ useState, useEffect } from 'react';
 import Link from 'next/link';
+import styles from '@/styles/Home.module.css';
 import "@/app/globals.css";
+import Image from 'next/image'
 import Navbar from '@/components/Navbar';
+import Card from '@/components/Card';
 import Footer from '@/components/Footer';
-import GetAllPokemon from '@/APIs/getAllPokemon';
+import GetAllPokemon from '@/app/api/getAllPokemon';
 import { type } from 'os';
 
 export type type = {
@@ -43,7 +46,7 @@ function Home() {
   return (
       <div>
           <Navbar />
-          <div className="flex flex-row justify-center items-center gap-4 p-8 flex-wrap overflow-hidden">
+          <div className="flex flex-row justify-center min-h-screen items-center gap-4 p-8 flex-wrap overflow-hidden">
             {pokemonArray.map((pokeObj) => (
                     <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
                         <div className="md:flex">

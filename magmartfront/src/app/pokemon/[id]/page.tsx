@@ -1,27 +1,22 @@
-'use client'
+"use client";
+
+// Arquivo Product.js
 import React,{ useEffect, useState } from 'react';
+import styles from '@/styles/Product.module.css';
 import "@/app/globals.css";
+import Image from 'next/image'
+import { useRouter } from 'next/router';
 import Navbar from '@/components/Navbar';
+import Card from '@/components/Card';
 import Footer from '@/components/Footer';
-import GetPokemon from '@/APIs/getPokemon';
-
-export type PokemonData = {
-    id: string;
-    reference_id: number; 
-    name: string;
-    weight: number;
-    height: number;
-    image_url: string;
-    experience: number;
-    price: number;
-    in_stock: number;
-}
-
-export type Query = {
-    data: string;
-}
+import PropTypes from 'prop-types';
+import GetPokemon from '@/app/api/getPokemon';
+import addToCart from '@/app/api/addToCart';
+import { types } from 'util';
 
 function Product({params}: {params: {id: string}}) {
+    const [pok_id, setPokId] = useState('');
+    const [ref_id, setRefId] = useState(1);
     const [name, setName] = useState('');
     const [weight, setWeight] = useState(1);
     const [height, setHeight] = useState(1);
@@ -40,6 +35,8 @@ function Product({params}: {params: {id: string}}) {
                 //setPokId(queryString);
                 //if (typeof router.query.data === 'string') {
                     data = await GetPokemon(params.id);
+                    setPokId(data.id);
+                    setRefId(data.reference_id);
                     setName(data.name);
                     setWeight(data.weight);
                     setHeight(data.height);
@@ -64,12 +61,13 @@ function Product({params}: {params: {id: string}}) {
         getdados();
     }, []);
 
-
-
-
-
-
-
+    // Função para lidar com o clique no botão "Adicionar ao Carrinho"
+    const handleAddToCart = () => {
+        const userId = "e0353a92-d5b2-4ae7-af00-b9947eb72ea6"; // Substitua pelo ID do usuário autenticado
+        const pokemonId = params.id; // Substitua pelo ID do pokémon
+        const quantity = 1; // Quantidade a ser adicionada ao carrinho
+        addToCart(userId, pokemonId, quantity);
+    };
 
   return (
       <div>
@@ -81,20 +79,25 @@ function Product({params}: {params: {id: string}}) {
             <div className='description'>
                 <p className={`m-0 max-w-[200ch] text-sm text-balance`}>
                     {name}<br/>
-                    Tipo: {type}
+                    Id: {pok_id}<br/>
+                    Número: {ref_id}<br/>
+                    Type: {type}
                 </p>
                 <p className={`m-0 max-w-[100ch] text-sm text-balance`}>
-                    Experiência: {exp} <br/>
-                    Peso: {weight}<br/>
-                    Altura: {height}<br/>
+                    Exp: {exp} <br/>
+                    Weight: {weight}<br/>
+                    Height: {height}<br/>
                     Tier: {tier_name}<br/>
-                    Experiência mínima requerida: {min_exp}<br/>
-                    Limite de experiência: {limit_exp}
+                    Minimal experience required: {min_exp}<br/>
+                    Limit of experience: {limit_exp}
                 </p>
                 <p className={`m-0 max-w-[100ch] text-sm text-balance`}>
-                    Preço: {price} <br/>
-                    Quantidade: {stock}
+                    Price: {price} <br/>
+                    In Stock: {stock}
                 </p>
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleAddToCart}>
+                    Adicionar ao Carrinho
+                </button>
             </div> 
           </div>
           <Footer />

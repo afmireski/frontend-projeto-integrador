@@ -1,7 +1,7 @@
 import Axios from 'axios'
 
 const api = Axios.create({
-    baseURL: `${process.env.API_URL}/`
+    baseURL: 'http://localhost:3001/'
 })
 
 export default api;
