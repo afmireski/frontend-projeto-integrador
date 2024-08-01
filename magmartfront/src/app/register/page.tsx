@@ -1,11 +1,14 @@
+"use client"
+
 // components/Cadastro.js
 
 import React,{ useState } from 'react';
-import styles from '../styles/Cadastro.module.css';
-import "../app/globals.css";
+import styles from '@/styles/Cadastro.module.css';
+import "@/app/globals.css";
 import Image from 'next/image'
 import axios from 'axios'; // Importe o Axios para fazer requisições HTTP
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function Cadastrar() {
     const [name, setName] = useState('');
@@ -14,9 +17,9 @@ export default function Cadastrar() {
     const [birthDate, setBirthDate] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const router = useRouter();
+    //const router = useRouter();
   
-    const handleCadastro = async (e) => {
+    const handleCadastro = async (e: any) => {
       e.preventDefault();
   
       // Verifique se as senhas coincidem
@@ -39,11 +42,11 @@ export default function Cadastrar() {
   
       try {
         // Faça uma requisição POST para a rota de criação de usuário no backend
-        const response = await axios.post('http://localhost:3001/users/new', userData);
+        const response = await axios.post(`${process.env.API_URL}/users/new`, userData);
   
         // Se a requisição for bem-sucedida, redirecione para a página de login
         console.log('Usuário cadastrado com sucesso:', response.data);
-        router.push('/login'); // Redirecione para a página de login
+        //router.push('/login'); // Redirecione para a página de login
       } catch (error) {
         // Se ocorrer um erro, lide com ele (exiba uma mensagem de erro, etc.)
         console.error('Erro ao cadastrar usuário:', error);
@@ -141,7 +144,7 @@ export default function Cadastrar() {
           </div>
           <div className='flex flex-col justify-center items-center h-full w-full'>
             <div className='flex flex-col justify-center items-center h-full w-full'>
-              <button className="bg-[#E7852B] h-full w-[65%] p-2 rounded-lg text-white" type="submit">Entrar</button>
+              <button className="bg-[#E7852B] h-full w-[65%] p-2 rounded-lg text-white" type="submit"><Link href='/'>Entrar</Link></button>
             </div>
             <div className='flex flex-col justify-center items-center h-full w-full mt-5'>
               <button className="bg-[#ffffff] h-full w-10 p-2 rounded-full text-white" type="submit">

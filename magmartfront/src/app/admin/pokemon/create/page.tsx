@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 
 export default function CadPokemon() {
     const [tierId, setTierId] = useState('');
@@ -16,7 +16,7 @@ export default function CadPokemon() {
     const [initialStock, setInitialStock] = useState('');
     const [name, setName] = useState('');
 
-  const handleCadastro = async (e) => {
+  const handleCadastro = async (e: any) => {
     e.preventDefault();
 
     // Dados do Pokémon a serem enviados para o backend
@@ -29,7 +29,7 @@ export default function CadPokemon() {
 
     try {
       // Envia os dados do Pokémon para a API
-      const response = await fetch('http://localhost:3001/pokemon/new', {
+      const response = await fetch(`${process.env.API_URL}/pokemon/new`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

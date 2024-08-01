@@ -6,15 +6,12 @@ import React,{ useState, useEffect } from 'react';
 import styles from '@/styles/Login.module.css';
 import "@/app/globals.css";
 import Image from 'next/image'
-import { useRouter } from 'next/router';
-import axios from 'axios';
-import GetAllPokemon from '@/APIs/getAllPokemon';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = (e) => {
+  const handleLogin = (e: any) => {
     e.preventDefault();
     // Aqui você pode adicionar lógica para autenticar o usuário
     console.log('Usuário:', username);
@@ -64,7 +61,7 @@ export default function Login() {
             </div>
             <div className='flex flex-row w-[70%] justify-start mb-3'>
               <div className='flex flex-row w-full justify-end mb-3'>
-                <div className='text-white'><a className='hover:underline' href='#'>Não tem uma conta? Cadastre-se</a></div>
+                <div className='text-white'><a className='hover:underline' href='/register'>Não tem uma conta? Cadastre-se</a></div>
               </div>
             </div>
           </div>

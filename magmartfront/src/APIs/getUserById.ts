@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { PokemonData } from '@/components/myTypes/PokemonTypes';
+import { UserData } from '@/components/myTypes/UserTypes';
 
-async function GetPokemon( id: string ){
-    return Promise.resolve(axios.get<PokemonData>(`${process.env.API_URL}/pokemon/${id}`))
+async function GetUserById( id: string ){
+    return Promise.resolve(axios.get<UserData>(`http://localhost:3001/users/${id}`))
     .then(response => {
         if(response.status.toString() == '200'){
             return response.data;
@@ -14,4 +14,4 @@ async function GetPokemon( id: string ){
     });
 }
 
-export default GetPokemon;
+export default GetUserById;

@@ -2,17 +2,11 @@
 
 // Arquivo Product.js
 import React,{ useEffect, useState } from 'react';
-import styles from '@/styles/Product.module.css';
 import "@/app/globals.css";
-import Image from 'next/image'
-import { useRouter } from 'next/router';
 import Navbar from '@/components/Navbar';
-import Card from '@/components/Card';
 import Footer from '@/components/Footer';
-import PropTypes from 'prop-types';
 import GetPokemon from '@/APIs/getPokemon';
 import addToCart from '@/APIs/addToCart';
-import { types } from 'util';
 
 function Product({params}: {params: {id: string}}) {
     const [pok_id, setPokId] = useState('');
@@ -85,16 +79,16 @@ function Product({params}: {params: {id: string}}) {
                     Type: {type}
                 </p>
                 <p className={`m-0 max-w-[100ch] text-sm text-balance`}>
-                    Exp: {exp} <br/>
-                    Weight: {weight}<br/>
-                    Height: {height}<br/>
+                    Experiência: {exp} <br/>
+                    Peso: {weight}<br/>
+                    Altura: {height}<br/>
                     Tier: {tier_name}<br/>
-                    Minimal experience required: {min_exp}<br/>
-                    Limit of experience: {limit_exp}
+                    Experiência mínima requerida: {min_exp}<br/>
+                    Limite de experiência: {limit_exp}
                 </p>
                 <p className={`m-0 max-w-[100ch] text-sm text-balance`}>
-                    Price: {price} <br/>
-                    In Stock: {stock}
+                    Preço: {price} <br/>
+                    Quantidade: {stock}
                 </p>
                 <div>
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleAddToCart}>
