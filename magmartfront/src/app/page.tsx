@@ -14,12 +14,3 @@ export default function HomePage({ user }) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const session = await getIronSession(context.req, context.res, sessionOptions);
-
-  return {
-    props: {
-      user: session.user || null,
-    },
-  };
-}
