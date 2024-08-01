@@ -37,7 +37,7 @@ function Carrinho() {
 
         await removeItemFromCart(cart_id,id)
         await fetchCartData();
-        
+
         console.log("Item deleted\n ", id);
       };
 
@@ -61,6 +61,10 @@ function Carrinho() {
                                     R${item.price}
                                 </div>
                             </div>
+                        <div className="px-6 py-4">
+                            <label htmlFor="">Quantidade</label>
+                            <div className=" text-xl mb-2 ">{item.quantity}</div>
+                        </div>
                         </div>
                         <div className='m-5'>
                             <button className="bg-red-600 w-6 h-6" onClick={() => handleDelete(item.id, item.cart_id)}>x</button>

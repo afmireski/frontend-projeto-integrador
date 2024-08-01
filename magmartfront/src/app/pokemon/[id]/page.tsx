@@ -28,6 +28,7 @@ function Product({params}: {params: {id: string}}) {
     const [tier_name, setTierName] = useState('');
     const [min_exp, setMinExp] = useState(1);
     const [limit_exp, setLimitExp] = useState(1);
+    const [quantity, setQuantity] = useState(1);
     let data;
     useEffect(() => {
         async function getdados() {
@@ -65,8 +66,8 @@ function Product({params}: {params: {id: string}}) {
     const handleAddToCart = () => {
         const userId = "e0353a92-d5b2-4ae7-af00-b9947eb72ea6"; // Substitua pelo ID do usuário autenticado
         const pokemonId = params.id; // Substitua pelo ID do pokémon
-        const quantity = 1; // Quantidade a ser adicionada ao carrinho
-        addToCart(userId, pokemonId, quantity);
+        const qtty = quantity; // Quantidade a ser adicionada ao carrinho
+        addToCart(userId, pokemonId, qtty);
     };
 
   return (
@@ -95,9 +96,15 @@ function Product({params}: {params: {id: string}}) {
                     Price: {price} <br/>
                     In Stock: {stock}
                 </p>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleAddToCart}>
-                    Adicionar ao Carrinho
-                </button>
+                <div>
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleAddToCart}>
+                        Adicionar ao Carrinho
+                    </button>
+                </div>
+                <div>
+                    <label>Quantidade: </label>
+                    <input type="number" id="pokemon" name="bought" onChange={(e) => setQuantity(Number(e.target.value))} defaultValue={1} min={1} max={stock} />
+                </div>
             </div> 
           </div>
           <Footer />
