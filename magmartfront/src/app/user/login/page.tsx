@@ -1,38 +1,44 @@
+// src/app/login/page.tsx
+
+"use client";
 import React, { useState } from 'react';
-import styles from '../styles/Login.module.css';
-import "../app/globals.css";
+import styles from '@/styles/Login.module.css';
+import "../globals.css";
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import axios from 'axios';
-import { cookies } from 'next/headers';
-import { getIronSession } from 'iron-session';
-import { SessionData } from '@/components/myTypes/SessionTypes';
+import Cookies from 'js-cookie'; // Biblioteca para manipular cookies no frontend
 
-
-export default function Login() {
-  const [username, setUsername] = useState('');
+export default function LoginPage() {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
-  const router = useRouter();
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/APIs/login', {
-        email: username,
-        password: password,
+      const response = await axios.post('http://localhost:3001/sign-in', {
+        email,
+        password,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
       });
 
       if (response.status === 200) {
-        // Define os cookies após o login bem-sucedido
-        await axios.post('/APIs/set-cookie', {
-          email: username,
-          username: 'Alison', // Exemplo, substitua pelo nome real do usuário
+        const token = response.data.access_token;
+
+        // Armazene o token em um cookie
+        Cookies.set('authToken', token, { 
+          expires: 7, // O token expira em 7 dias
+          secure: true, // O cookie só será enviado em conexões HTTPS
+          sameSite: 'strict' // Protege contra CSRF
         });
 
-        // Redirecionar o usuário para uma página protegida
-        router.push('/home');
+        //window.location.href = '/'; // Redireciona após login bem-sucedido
+      } else {
+        setLoginError('Login failed');
       }
     } catch (error) {
       console.error('Login failed:', error);
@@ -47,7 +53,7 @@ export default function Login() {
 
   return (
     <div className={styles.containerLogin}>
-      <form onSubmit={handleLogin} className={styles.form}>
+      <form onSubmit={handleSubmit} className={styles.form}>
         <div className='flex flex-col h-full w-96'>
           <div className='flex flex-col h-full w-full justify-center items-center p-3'>
             <h2 className='text-2xl font-bold text-white'>LOGIN</h2>
@@ -59,8 +65,8 @@ export default function Login() {
                   type="email"
                   className={styles.myinput}
                   id="email"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="E-mail"
                 />
               </div>
@@ -79,7 +85,7 @@ export default function Login() {
             </div>
             {loginError && (
               <div className='flex flex-row h-full w-full justify-center items-center'>
-                <p className='text-red-500'>{loginError}</p>
+                <p className='text-[#d4e252]'>{loginError}</p>
               </div>
             )}
             <div className='flex flex-row w-[70%] justify-start mb-5'>
