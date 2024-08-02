@@ -47,18 +47,18 @@ function Home() {
             {pokemonArray.map((pokeObj) => (
                     <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
                         <Link href={`/pokemon/${pokeObj.id}`}>
-                        <div className="md:flex">
-                            <div className="md:flex-shrink-0">
-                            <Link href={`/pokemon/${pokeObj.id}`}><img className="h-48 w-full object-cover md:w-48" src={pokeObj.image_url} alt="Imagem do Card" /></Link>
+                            <div className="md:flex">
+                                <div className="md:flex-shrink-0">
+                                <Link href={`/pokemon/${pokeObj.id}`}><img className="h-48 w-full object-cover md:w-48" src={pokeObj.image_url} alt="Imagem do Card" /></Link>
+                                </div>
+                                <div className="p-8">
+                                    <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{pokeObj.name}</div>
+                                    <div className="mt-2 text-blue-500"> {pokeObj.types.map((tPok) => (
+                                        <p>{tPok.name}</p>
+                                    ))}</div>
+                                    <p className="mt-2 text-gray-500"> Price: P${pokeObj.price}</p>
+                                </div>
                             </div>
-                            <div className="p-8">
-                                <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{pokeObj.name}</div>
-                                <div className="mt-2 text-blue-500"> {pokeObj.types.map((tPok) => (
-                                    <p>{tPok.name}</p>
-                                ))}</div>
-                                <p className="mt-2 text-gray-500"> Price: P${pokeObj.price}</p>
-                            </div>
-                        </div>
                         </Link>
                     </div>
                 ))}
