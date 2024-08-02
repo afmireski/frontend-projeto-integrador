@@ -77,7 +77,7 @@ function Product({params}: {params: {id: string}}) {
             };
 
             // Envia a requisição para editar o Pokémon
-            const response = await fetch(`http://localhost:3001/pokemon/${params.id}/update`, {
+            const response = await fetch(`${process.env.API_URL}/pokemon/${params.id}/update`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

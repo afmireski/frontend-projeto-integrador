@@ -43,7 +43,7 @@ function Home() {
   return (
       <div>
           <Navbar />
-          <div className="flex flex-row justify-center items-center gap-4 p-8 flex-wrap overflow-hidden">
+          <div className="flex flex-row justify-center min-h-screen items-center gap-4 p-8 flex-wrap overflow-hidden">
             {pokemonArray.map((pokeObj) => (
                     <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
                         <div className="md:flex">
