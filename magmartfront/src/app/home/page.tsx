@@ -6,7 +6,6 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import GetAllPokemon from '@/APIs/getAllPokemon';
 import slugify from '@/utils/string';
-import { type } from 'os';
 
 export type type = {
     id: string;
