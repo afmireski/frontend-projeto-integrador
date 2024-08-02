@@ -33,7 +33,6 @@ export default function LoginPage() {
         Cookies.set('authToken', token, { 
           expires: 1/24, // O token expira em 7 dias
           secure: false, // O cookie só será enviado em conexões HTTPS
-          sameSite: 'strict' // Protege contra CSRF
         });
 
         window.location.href = '/home'; // Redireciona após login bem-sucedido
