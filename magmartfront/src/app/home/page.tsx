@@ -20,6 +20,7 @@ export type PokemonData = {
     image_url: string;
     price: number;
     types: type[];
+    slug: string;
 }
 
 function Home() {
@@ -30,7 +31,10 @@ function Home() {
         async function getdados() {
             try {
                 data =  await GetAllPokemon();
-                const newArrayCopy: PokemonData[] = [...data];
+                const newArrayCopy: PokemonData[] = data.map((pokemon) => ({
+                    ...pokemon,
+                    slug: slugify(pokemon.name),
+                }));
                 setPokemonArray(newArrayCopy);
                 console.log(data)
             } catch {
