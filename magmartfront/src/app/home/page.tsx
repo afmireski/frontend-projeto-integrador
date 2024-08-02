@@ -25,8 +25,8 @@ export type PokemonData = {
 
 function Home() {
 
-    const [allPokemon, setAllPokemon] = useState<PokemonData[]>([]);
-    const [pokemonArray, setPokemonArray] = useState<PokemonData[]>([]);
+    const [pokemons, setPokemons] = useState<PokemonData[]>([]);
+    const [pokemonsToDisplay, setPokemonsToDisplay] = useState<PokemonData[]>([]);
     let data;
     useEffect(() => {
         async function getdados() {
@@ -36,8 +36,8 @@ function Home() {
                     ...pokemon,
                     slug: slugify(pokemon.name),
                 }));
-                setAllPokemon(newArrayCopy);
-                setPokemonArray(newArrayCopy);
+                setPokemons(newArrayCopy);
+                setPokemonsToDisplay(newArrayCopy);
             } catch (error) {
                 console.log(error);
                 throw new Error;
@@ -49,7 +49,7 @@ function Home() {
 
     const handleSearch = (text: string) => {
         const slugifiedText = slugify(text);
-        setPokemonArray(text ? allPokemon.filter((i) => i.slug.includes(slugifiedText)) : allPokemon);
+        setPokemonsToDisplay(text ? pokemons.filter((i) => i.slug.includes(slugifiedText)) : pokemons);
     }
   return (
       <div>
@@ -67,7 +67,7 @@ function Home() {
                 </div>
             </form>
           <div className="flex flex-row justify-center min-h-screen items-center gap-4 p-8 flex-wrap overflow-hidden">
-            {pokemonArray.map((pokeObj, index) => (
+            {pokemonsToDisplay.map((pokeObj, index) => (
                     <div key={index} className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
                         <Link href={`/pokemon/${pokeObj.id}`}>
                             <div className="md:flex">
