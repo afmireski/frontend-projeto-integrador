@@ -3,7 +3,7 @@
 // Função para adicionar um item ao carrinho
 async function addToCart(userId, pokemonId, quantity) {
     try {
-        const response = await fetch(`http://localhost:3001/users/${userId}/items/add`, {
+        const response = await fetch(`${process.env.API_URL}/users/${userId}/items/add`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
