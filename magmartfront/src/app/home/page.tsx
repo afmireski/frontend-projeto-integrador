@@ -37,9 +37,9 @@ function Home() {
                     slug: slugify(pokemon.name),
                 }));
                 setPokemonArray(newArrayCopy);
-                console.log(data)
-            } catch {
-                console.log('erro')
+            } catch (error) {
+                console.log(error);
+                throw new Error;
             }
         }
 
