@@ -26,6 +26,7 @@ export type PokemonData = {
 
 function Home() {
 
+    const [allPokemon, setAllPokemon] = useState<PokemonData[]>([]);
     const [pokemonArray, setPokemonArray] = useState<PokemonData[]>([]);
     let data;
     useEffect(() => {
@@ -36,6 +37,7 @@ function Home() {
                     ...pokemon,
                     slug: slugify(pokemon.name),
                 }));
+                setAllPokemon(newArrayCopy);
                 setPokemonArray(newArrayCopy);
             } catch (error) {
                 console.log(error);
@@ -47,7 +49,8 @@ function Home() {
     }, []); 
 
     const handleSearch = (text: string) => {
-        console.log(text);
+        const slugifiedText = slugify(text);
+        setPokemonArray(text ? allPokemon.filter((i) => i.slug.includes(slugifiedText)) : allPokemon);
     }
   return (
       <div>
