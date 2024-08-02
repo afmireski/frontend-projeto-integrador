@@ -31,12 +31,12 @@ export default function LoginPage() {
 
         // Armazene o token em um cookie
         Cookies.set('authToken', token, { 
-          expires: 7, // O token expira em 7 dias
-          secure: true, // O cookie só será enviado em conexões HTTPS
+          expires: 1/24, // O token expira em 7 dias
+          secure: false, // O cookie só será enviado em conexões HTTPS
           sameSite: 'strict' // Protege contra CSRF
         });
 
-        //window.location.href = '/'; // Redireciona após login bem-sucedido
+        window.location.href = '/home'; // Redireciona após login bem-sucedido
       } else {
         setLoginError('Login failed');
       }
