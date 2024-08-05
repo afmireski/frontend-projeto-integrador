@@ -13,6 +13,8 @@ import { CartData, CartItem} from '@/components/myTypes/CartType';
 import CardCarrinho from '@/components/CardCarrinho';
 import Link from 'next/link';
 import removeItemFromCart from '@/APIs/removeItemFromCart';
+import FinishPurchase from '@/APIs/finishPurchase';
+import axios from 'axios';
 
 function Carrinho() {
     const [cartData, setCartData] = useState<CartData | null>(null);
@@ -28,8 +30,11 @@ function Carrinho() {
         fetchCartData();
     }, []);
 
-    const handlePurchase = () => {
+    const handlePurchase = async () => {
+
+        FinishPurchase()
         //window.location.href='/purchases'
+        console.log("Purchase was finished");
     };
 
     const handleDelete = async (id: string,cart_id: string) => {
