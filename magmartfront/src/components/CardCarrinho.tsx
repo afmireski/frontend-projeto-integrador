@@ -4,13 +4,15 @@ import Router from "next/router";
 import  useRouter from "next/navigation"
 import Link from 'next/link';
 import Image from 'next/image';
+import removeItemFromCart from '@/APIs/removeItemFromCart';
 
 const CardCarrinho = ({ produto }) => {
 
     const handleDelete = () => {
-        //inserir remover item do carrinho por ID 
-        window.location.reload();
+        //inserir remover item do carrinho por ID
+        removeItemFromCart(produto.cart_id,produto.id)
         console.log("delete ", produto.id);
+        //window.location.reload();
       };
 
   return (
