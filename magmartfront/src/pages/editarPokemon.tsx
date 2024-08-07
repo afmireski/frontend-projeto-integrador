@@ -24,7 +24,7 @@ export default function EditarPokemon() {
             };
 
             // Envia a requisição para editar o Pokémon
-            const response = await fetch(`http://localhost:3001/pokemon/${pokemonId}/update`, {
+            const response = await fetch(`${process.env.API_URL}/pokemon/${pokemonId}/update`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

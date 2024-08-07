@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 
 function GetUserCart(userId: string) {
   const token = Cookies.get('authToken');
-  return axios.get<CartData>(`http://localhost:3001/users/${userId}/cart`, {
+  return axios.get<CartData>(`${process.env.API_URL}/cart`, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `${token}`, // Adiciona o token ao cabeçalho

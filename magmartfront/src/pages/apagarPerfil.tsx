@@ -11,7 +11,7 @@ export default function ApagarPerfil() {
 
         try {
             // Envia o ID do Pokémon para a API para exclusão
-            const response = await fetch(`http://localhost:3001/users/${userId}/del`, {
+            const response = await fetch(`${process.env.API_URL}/users/del`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

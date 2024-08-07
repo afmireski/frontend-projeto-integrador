@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 function DeletePokemon( id: string ) {
-    return Promise.resolve(axios.delete(`http://localhost:3001/pokemon/${id}/del`))
+    return Promise.resolve(axios.delete(`${process.env.API_URL}/pokemon/${id}/del`))
     .then(response => {
         if(response.status.toString() == '200'){
             return response.data;

@@ -14,7 +14,7 @@ export default function EditarPokemon() {
 
         try {
             // Envia o ID do Pokémon para a API para exclusão
-            const response = await fetch(`http://localhost:3001/pokemon/${pokemonId}`, {
+            const response = await fetch(`${process.env.API_URL}/pokemon/${pokemonId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

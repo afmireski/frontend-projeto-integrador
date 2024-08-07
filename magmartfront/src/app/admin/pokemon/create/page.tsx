@@ -29,7 +29,7 @@ export default function CadPokemon() {
 
     try {
       // Envia os dados do Pokémon para a API
-      const response = await fetch('http://localhost:3001/pokemon/new', {
+      const response = await fetch(`${process.env.API_URL}/pokemon/new`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
