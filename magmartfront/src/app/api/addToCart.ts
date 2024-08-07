@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 async function addToCart(userId, pokemonId, quantity) {
     try {
         const token = Cookies.get('authToken');
-        const response = await fetch(`${process.env.API_URL}/cart/add-iten`, {
+        const response = await fetch(`${process.env.API_URL}/cart/add-item`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
