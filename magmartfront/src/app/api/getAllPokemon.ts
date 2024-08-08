@@ -2,7 +2,6 @@ import axios from 'axios';
 import { PokemonData } from '@/components/myTypes/PokemonTypes';
 
 function GetAllPokemon() {
-    console.log("called", process.env)
     return Promise.resolve(axios.get<PokemonData[]>(`${process.env.API_URL}/pokemon`))
     .then(response => {
         if(response.status.toString() == '200'){

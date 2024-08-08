@@ -8,19 +8,19 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import getUserCart from '@/APIs/getUserCart';
 import { CartData, CartItem} from '@/components/myTypes/CartType';
 import CardCarrinho from '@/components/CardCarrinho';
 import Link from 'next/link';
 import removeItemFromCart from '@/APIs/removeItemFromCart';
 import FinishPurchase from '@/APIs/finishPurchase';
 import axios from 'axios';
+import GetUserCart from '../api/getUserCart';
 
 function Carrinho() {
     const [cartData, setCartData] = useState<CartData | null>(null);
     async function fetchCartData() {
         try {
-            const data = await getUserCart("e0353a92-d5b2-4ae7-af00-b9947eb72ea6");
+            const data = await GetUserCart("e0353a92-d5b2-4ae7-af00-b9947eb72ea6");
             setCartData(data);
         } catch (error) {
             console.error('Erro ao buscar dados do carrinho', error);

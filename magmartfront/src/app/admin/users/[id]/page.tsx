@@ -53,7 +53,7 @@ function Product({params}: {params: {id: string}}) {
 
         try {
             // Envia os dados do usuário para a API para atualização
-            const response = await axios.patch(`${process.env.API_URL}/users/${params.id}/update`, {
+            const response = await axios.patch(`${process.env.API_URL}/users/update`, {
                 name: patchedName,
                 email: patchedEmail,
                 phone: "+55"+patchedPhone,

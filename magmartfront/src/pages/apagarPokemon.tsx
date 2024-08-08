@@ -1,20 +1,17 @@
-"use client"
-
 import React, { useState } from 'react';
-import Link from 'next/link';
-import styles from '@/styles/CadPokemon.module.css';
-import "@/app/globals.css";
-import AdmNavbar from '@/components/AdmNavbar';
+import styles from '../styles/CadPokemon.module.css';
+import "../app/globals.css";
+import Navbar from '../components/Navbar';
 
 export default function EditarPokemon() {
     const [pokemonId, setPokemonId] = useState('');
 
-    const handleSearch = async (e) => {
+    const handleDelete = async (e) => {
         e.preventDefault();
 
         try {
             // Envia o ID do Pokémon para a API para exclusão
-            const response = await fetch(`${process.env.API_URL}/pokemon/${pokemonId}`, {
+            const response = await fetch(`${process.env.API_URL}/pokemon/${pokemonId}/del`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -25,22 +22,22 @@ export default function EditarPokemon() {
             if (response.ok) {
                 // Limpa o campo após a exclusão bem-sucedida
                 setPokemonId('');
-                console.log('Pokemon encontrado com sucesso!');
+                console.log('Pokemon excluído com sucesso!');
             } else {
-                console.error('Erro ao buscar o Pokemon.');
+                console.error('Erro ao excluir o Pokemon.');
             }
         } catch (error) {
-            console.error('Erro ao buscar o Pokemon:', error);
+            console.error('Erro ao excluir o Pokemon:', error);
         }
     };
 
     return (
         <div className={styles.mainLogin}>
             <div className='w-full'>
-                <AdmNavbar />
+                <Navbar />
             </div>
             <div className={styles.ContainerCadPokemon}>
-                <form onSubmit={handleSearch} className={styles.form} >
+                <form onSubmit={handleDelete} className={styles.form} >
                     <div className='flex flex-col h-full w-10/12 justify-center items-center'>
                         <div className='flex flex-col h-full w-full justify-center items-center p-3'>
                             <h2 className='text-2xl font-bold text-white'>Excluir Pokemon</h2>
@@ -65,7 +62,7 @@ export default function EditarPokemon() {
                         </div>
                         <div className='flex flex-col justify-center items-center h-full w-full'>
                             <div className='flex flex-col justify-center mt-5 items-center h-full w-full'>
-                                <button className="bg-[#e72b2b] h-full w-[65%] p-2 rounded-lg text-white" type="submit">Buscar Pokemon</button>
+                                <button className="bg-[#e72b2b] h-full w-[65%] p-2 rounded-lg text-white" type="submit">Apagar Pokemon</button>
                             </div>
                         </div>
                     </div>
