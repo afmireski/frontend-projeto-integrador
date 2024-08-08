@@ -1,12 +1,14 @@
 // cart.js
-
+import Cookies from 'js-cookie';
 // Função para adicionar um item ao carrinho
 async function addToCart(userId, pokemonId, quantity) {
     try {
-        const response = await fetch(`${process.env.API_URL}/users/${userId}/items/add`, {
+        const token = Cookies.get('authToken');
+        const response = await fetch(`${process.env.API_URL}/cart/add-item`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `${token}`
             },
             body: JSON.stringify({
                 pokemon_id: pokemonId.toString(),

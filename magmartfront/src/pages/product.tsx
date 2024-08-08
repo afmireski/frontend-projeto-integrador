@@ -1,19 +1,41 @@
 'use client'
 import React,{ useEffect, useState } from 'react';
-import styles from '@/styles/Product.module.css';
-import "@/app/globals.css";
+import styles from '../styles/Product.module.css';
+import "../app/globals.css";
 import Image from 'next/image'
 import { useRouter } from 'next/router';
-import AdmNavbar from '@/components/AdmNavbar';
-import Card from '@/components/Card';
-import Footer from '@/components/Footer';
+import Navbar from '../components/Navbar';
+import Card from '../components/Card';
+import Footer from '../components/Footer';
 import PropTypes from 'prop-types';
 import GetPokemon from '@/app/api/getPokemon';
 import { types } from 'util';
 
-function Product({params}: {params: {id: string}}) {
-    const [pok_id, setPokId] = useState('');
-    const [ref_id, setRefId] = useState(1);
+export type PokemonData = {
+    id: number;
+    reference_id: number; 
+    name: string;
+    weight: number;
+    height: number;
+    image_url: string;
+    experience: number;
+    price: number;
+    in_stock: number;
+}
+
+export type Query = {
+    data: string;
+}
+
+function Product() {
+    const router = useRouter();
+    const received_id = router.query;
+    //const [pok_id, setPokId] = useState('');
+    // const queryString = Object.keys(received_id || {})
+    // .map((key) => `${received_id}`)
+    // .join('&');
+    //console.log(pok_id);
+    console.log(router.query.parameter);
     const [name, setName] = useState('');
     const [weight, setWeight] = useState(1);
     const [height, setHeight] = useState(1);
@@ -31,9 +53,7 @@ function Product({params}: {params: {id: string}}) {
             try {
                 //setPokId(queryString);
                 //if (typeof router.query.data === 'string') {
-                    data = await GetPokemon(params.id);
-                    setPokId(data.id);
-                    setRefId(data.reference_id);
+                    data = await GetPokemon(router.query.parameter as string);
                     setName(data.name);
                     setWeight(data.weight);
                     setHeight(data.height);
@@ -58,9 +78,16 @@ function Product({params}: {params: {id: string}}) {
         getdados();
     }, []);
 
+
+
+
+
+
+
+
   return (
       <div>
-          <AdmNavbar />
+          <Navbar />
           <div className="flex flex-row justify-center items-center gap-4 p-8">
             <div className='image'>
                 <img src={image} alt='test'></img>
@@ -68,8 +95,6 @@ function Product({params}: {params: {id: string}}) {
             <div className='description'>
                 <p className={`m-0 max-w-[200ch] text-sm text-balance`}>
                     {name}<br/>
-                    Id: {pok_id}<br/>
-                    Número: {ref_id}<br/>
                     Type: {type}
                 </p>
                 <p className={`m-0 max-w-[100ch] text-sm text-balance`}>
