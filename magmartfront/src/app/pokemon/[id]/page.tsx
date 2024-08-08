@@ -10,7 +10,7 @@ import Navbar from '@/components/Navbar';
 import Card from '@/components/Card';
 import Footer from '@/components/Footer';
 import GetPokemon from '@/APIs/getPokemon';
-import addToCart from '@/APIs/addToCart';
+import addToCart from '@/app/api/addToCart';
 
 function Product({params}: {params: {id: string}}) {
     const [pok_id, setPokId] = useState('');

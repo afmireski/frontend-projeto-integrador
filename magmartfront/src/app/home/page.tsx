@@ -8,7 +8,7 @@ import Navbar from '@/components/Navbar';
 import Card from '@/components/Card';
 import Footer from '@/components/Footer';
 import { type } from 'os';
-import GetAllPokemon from '@/APIs/getAllPokemon';
+import GetAllPokemon from '@/app/api/getAllPokemon';
 import slugify from '@/utils/string';
 
 export type type = {

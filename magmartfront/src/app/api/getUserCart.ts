@@ -3,7 +3,7 @@ import { CartData } from '@/components/myTypes/CartType';
 import Cookies from 'js-cookie';
 
 
-function GetUserCart(userId: string) {
+function GetUserCart() {
   const token = Cookies.get('authToken');
   return axios.get<CartData>(`${process.env.API_URL}/cart`, {
     headers: {
