@@ -16,8 +16,9 @@ function AdmNavbar() {
                                 <a href="/admin/pokemon/list" className="text-gray-300 hover:bg-[#d63924] hover:text-white px-3 py-2 rounded-md text-sm font-medium">Pokemons</a>
                                 <a href="/admin/pokemon/find" className="text-gray-300 hover:bg-[#d63924] hover:text-white px-3 py-2 rounded-md text-sm font-medium">Buscar Pokemon</a>
                                 <a href="/admin/pokemon/create" className="text-gray-300 hover:bg-[#d63924] hover:text-white px-3 py-2 rounded-md text-sm font-medium">Cadastrar Pokemon</a>
-                                <a href="/admin/users/find" className="text-gray-300 hover:bg-[#d63924] hover:text-white px-3 py-2 rounded-md text-sm font-medium">Buscar Usuário</a>
-                                <a href="/admin/users/create" className="text-gray-300 hover:bg-[#d63924] hover:text-white px-3 py-2 rounded-md text-sm font-medium">Cadastrar Usuário</a>
+                                <a href="/admin/perfil/list" className="text-gray-300 hover:bg-[#d63924] hover:text-white px-3 py-2 rounded-md text-sm font-medium">Usuários</a>
+                                <a href="/admin/perfil/find" className="text-gray-300 hover:bg-[#d63924] hover:text-white px-3 py-2 rounded-md text-sm font-medium">Buscar Usuário</a>
+                                <a href="/admin/perfil/create" className="text-gray-300 hover:bg-[#d63924] hover:text-white px-3 py-2 rounded-md text-sm font-medium">Cadastrar Usuário</a>
                             </div>
                         </div>
                     </div>

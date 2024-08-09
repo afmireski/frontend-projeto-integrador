@@ -1,9 +1,9 @@
-"use client"
+// components/CadPokemon.js
 
 import React, { useState } from 'react';
-import styles from '@/styles/CadPokemon.module.css';
-import "@/app/globals.css";
-import AdmNavbar from '@/components/AdmNavbar';
+import styles from '../styles/CadPokemon.module.css';
+import "../app/globals.css";
+import Navbar from '../components/Navbar';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -56,7 +56,7 @@ export default function CadPokemon() {
   return (
     <div className={styles.mainLogin}>
       <div className='w-full'>
-        <AdmNavbar />
+        <Navbar />
       </div>
       <div className={styles.ContainerCadPokemon}>
         <form onSubmit={handleCadastro} className={styles.form} >
