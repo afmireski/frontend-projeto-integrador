@@ -11,6 +11,7 @@ export async function middleware(req: NextRequest) {
     '/pokemon/',
     '/cart/',
     '/purchases/finish',
+    '/profile/orders'
   ];
 
   const pathname = req.nextUrl.pathname;
@@ -23,8 +24,7 @@ export async function middleware(req: NextRequest) {
 
     if (!token) {
       // Redireciona para a página de login se não houver token
-      console.log(Cookies.get(1))
-      //return NextResponse.redirect(new URL('/login', req.url));
+      return NextResponse.redirect(new URL('/login', req.url));
     }
 
     // Se houver token, adiciona-o aos cabeçalhos da requisição
@@ -43,5 +43,6 @@ export const config = {
     '/pokemon/:path*',
     '/carts/:path*',
     '/purchases/finish',
+    '/profile/orders'
   ],
 };

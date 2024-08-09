@@ -78,7 +78,6 @@ function Product({params}: {params: {id: string}}) {
             <div className='description'>
                 <p className={`m-0 max-w-[200ch] text-sm text-balance`}>
                     {name}<br/>
-                    Id: {pok_id}<br/>
                     Número: {ref_id}<br/>
                     Type: {type}
                 </p>
@@ -87,8 +86,6 @@ function Product({params}: {params: {id: string}}) {
                     Weight: {weight}<br/>
                     Height: {height}<br/>
                     Tier: {tier_name}<br/>
-                    Minimal experience required: {min_exp}<br/>
-                    Limit of experience: {limit_exp}
                 </p>
                 <p className={`m-0 max-w-[100ch] text-sm text-balance`}>
                     Price: {price} <br/>

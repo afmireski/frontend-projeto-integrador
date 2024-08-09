@@ -1,21 +1,11 @@
 "use client";
 
 import "@/app/globals.css";
+import { formatDate } from '@/utils/date';
 import ChevronRight from "@mui/icons-material/ChevronRight";
 import Button from "@mui/material/Button";
-import Link from "next/link";
 import Grid from '@mui/material/Grid';
-
-const formatDate = (isoDate: any) => {
-  const date = new Date(isoDate);
-  return date.toLocaleDateString("pt-BR", {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-};
+import Link from "next/link";
 
 export default function Order({ order }) {
   return (
