@@ -1,113 +1,49 @@
-"use client"
-import React, { useState } from 'react';
-import styles from '@/styles/EditarPerfil.module.css';
+"use client";
+
+// Arquivo Product.js
+import React,{ useEffect, useState } from 'react';
+import styles from '@/styles/Product.module.css';
 import "@/app/globals.css";
+import Image from 'next/image'
+import { useRouter } from 'next/router';
 import Navbar from '@/components/Navbar';
-import axios from 'axios'; // Importar Axios para fazer solicitações HTTP
+import Footer from '@/components/Footer';
+import GetPokemon from '@/APIs/getPokemon';
+import addToCart from '@/app/api/addToCart';
+import Cookies from 'js-cookie';
+import GetUserByCookie from '@/app/api/getUserByCookie'
 
-export default function EditarPerfil() {
+function Profile() {
+    const [pok_id, setPokId] = useState('');
+    const [ref_id, setRefId] = useState(1);
     const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const [userID, setuserId] = useState('');
-
-    const handleUpdateProfile = async (e: any) => {
-        e.preventDefault();
-
-        try {
-            // Envia os dados do usuário para a API para atualização
-            const response = await axios.patch(`${process.env.API_URL}/users/${userID}/update`, {
-                name: name,
-                email: email,
-                phone: "+55"+phone,
-            });
-
-            // Verifica se a atualização foi bem-sucedida
-            if (response.status === 200) {
-                console.log('Perfil atualizado com sucesso!');
-            } else {
-                console.error('Erro ao atualizar o perfil.');
+    const [weight, setWeight] = useState(1);
+    let data;
+    useEffect(() => {
+        async function getdados() {
+            try {
+                //setPokId(queryString);
+                //if (typeof router.query.data === 'string') {
+                data = GetUserByCookie();
+                //}
+                console.log(data)
+            } catch {
+                console.log('erro')
             }
-        } catch (error) {
-            console.error('Erro ao atualizar o perfil:', error);
         }
-    };
 
-    return (
-        <div className={styles.mainLogin}>
-            <div className='w-full'>
-                <Navbar />
-            </div>
-            <div className={styles.ContainerEditarPerfil}>
-                <form onSubmit={handleUpdateProfile} className={styles.form}>
-                    <div className='flex flex-col h-full w-10/12 justify-center items-center'>
-                        <div className='flex flex-col h-full w-full justify-center items-center p-3'>
-                            <h2 className='text-2xl font-bold text-white'>Editar Perfil</h2>
-                        </div>
-                        <div className='flex flex-col h-full w-full justify-center items-center'>
-                            <div className='flex flex-row h-full w-full  m-2 justify-center items-center'>
-                                <div className='flex flex-col h-full w-1/2 justify-center items-center'>
-                                    <div className='flex flex-row h-full w-full justify-center items-center'>
-                                        <div className=''>
-                                            <input
-                                                className={styles.myinput}
-                                                type="text"
-                                                id="userID"
-                                                value={userID}
-                                                onChange={(e) => setuserId(e.target.value)}
-                                                placeholder="ID"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className='flex flex-row h-full w-full justify-center items-center'>
-                                        <div className="">
-                                            <input
-                                                className={styles.myinput}
-                                                type="email"
-                                                id="email"
-                                                value={email}
-                                                onChange={(e) => setEmail(e.target.value)}
-                                                placeholder="E-mail"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col h-full w-1/2 m-2 justify-center items-center'>
-                                    <div className='flex flex-row h-full w-full justify-center items-center'>
-                                        <div className=''>
-                                            <input
-                                            type="text"
-                                            className={styles.myinput}
-                                            id="nome"
-                                            value={name}
-                                            onChange={(e) => setName(e.target.value)}
-                                            placeholder="Nome"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className='flex flex-row h-full w-full justify-center items-center'>
-                                        <div className="">
-                                            <input
-                                                type="text"
-                                                className={styles.myinput}
-                                                id="phone"
-                                                value={phone}
-                                                onChange={(e) => setPhone(e.target.value)}
-                                                placeholder="Telefone"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='flex flex-col justify-center items-center h-full w-full'>
-                            <div className='flex flex-col justify-center items-center h-full w-full'>
-                                <button className="bg-[#E7852B] h-full w-[65%] p-2 rounded-lg text-white" type="submit">Atualizar Perfil</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    );
+        getdados();
+    }, []);
+
+  return (
+      <div>
+          <Navbar />
+          <div className="flex flex-row justify-center items-center gap-4 p-8">
+            Placeholder
+          </div>
+          <Footer />
+      </div>
+  );
 }
+
+export default Profile;
