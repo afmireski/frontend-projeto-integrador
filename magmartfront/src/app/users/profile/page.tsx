@@ -12,20 +12,25 @@ import GetPokemon from '@/APIs/getPokemon';
 import addToCart from '@/app/api/addToCart';
 import Cookies from 'js-cookie';
 import GetUserByCookie from '@/app/api/getUserByCookie'
+import { UserData } from '@/components/myTypes/UserTypes';
 
 function Profile() {
-    const [pok_id, setPokId] = useState('');
-    const [ref_id, setRefId] = useState(1);
     const [name, setName] = useState('');
-    const [weight, setWeight] = useState(1);
-    let data;
+    const [birth, setBirth] = useState('');
+    const [phone, setPhone] = useState('');
+    const [email, setEmail] = useState('');
+    let data: UserData;
     useEffect(() => {
         async function getdados() {
             try {
-                //setPokId(queryString);
-                //if (typeof router.query.data === 'string') {
-                data = GetUserByCookie();
-                //}
+                data = await GetUserByCookie();
+
+                console.log("Data ->, \n", data);
+                
+                setBirth(data.birth_date)
+                setName(data.name)
+                setPhone(data.phone)
+                setEmail(data.email)
                 console.log(data)
             } catch {
                 console.log('erro')
@@ -39,7 +44,12 @@ function Profile() {
       <div>
           <Navbar />
           <div className="flex flex-row justify-center items-center gap-4 p-8">
-            Placeholder
+                <p className={`m-0 max-w-[200ch] text-sm text-balance`}>
+                    Nome: {name}<br/>
+                    Data de nascimento: {birth}<br />
+                    Número: {phone}<br/>
+                    Email: {email}<br/>
+                </p>
           </div>
           <Footer />
       </div>

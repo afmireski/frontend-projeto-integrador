@@ -2,7 +2,7 @@ import axios from 'axios';
 import { UserData } from '@/components/myTypes/UserTypes';
 import Cookies from 'js-cookie';
 
-async function GetUserByCookie(){
+async function GetUserByCookie(): Promise<UserData>{
     const token = Cookies.get('authToken');
     return Promise.resolve(axios.get<UserData>(`${process.env.API_URL}/users/profile`, {
         headers: {
@@ -11,7 +11,8 @@ async function GetUserByCookie(){
           },
     }))
     .then(response => {
-        if(response.status.toString() == '200'){
+        console.log(response)
+        if(response.status === 200){
             return response.data;
         } 
         return response.data;
