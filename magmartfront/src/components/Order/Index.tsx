@@ -8,7 +8,6 @@ import Grid from '@mui/material/Grid';
 import Link from "next/link";
 
 export default function Order({ order }) {
-  console.log(order);
   return (
     <div className="flex my-6 flex-col rounded" style={{ backgroundColor: "white", fontSize: "14px" }}>
       <div className="mx-3 mt-5 mb-2 w-full flex justify-between items-center">
@@ -45,7 +44,7 @@ export default function Order({ order }) {
         ) : (
         <div className="text-red-600">Aguardando confirmação</div>
         )}
-        <div style={{ margin: '0 2.5rem' }}>Total da compra: R${order.total}</div>
+        <div style={{ margin: '0 2.5rem' }}>Total da compra: P$ {order.total}</div>
       </div>
       <hr className="my-1" style={{ "color": "rgb(222, 224, 228)" }}></hr>
       {order.items.map((item: any, key: any) => (
@@ -56,9 +55,9 @@ export default function Order({ order }) {
           <Grid item xs={6} md={8} className="grid items-center">
             <p><b>{item.pokemons.name}</b></p>
             <p>Quantidade: {item.quantity}</p>
-            <p>R${item.price}</p>
+            <p>P$ {item.price}</p>
           </Grid>
-          <Grid item xs={4} md={3} className="flex items-center justify-center">Total: R${item.total}</Grid>
+          <Grid item xs={4} md={3} className="flex items-center justify-center">Total: P$ {item.total}</Grid>
         </Grid>
       ))}
     </div>
