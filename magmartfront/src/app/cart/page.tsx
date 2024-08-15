@@ -9,12 +9,14 @@ import { CartData, CartItem } from '@/components/myTypes/CartType';
 import GetUserCart from '../api/getUserCart';
 import GetPaymentMethods, { PaymentMethod } from '@/APIs/getPaymentMethods';
 import FinishPurchase from '@/APIs/finishPurchase';
+import SuccessModal from '@/components/SucessModel';
 
 function Carrinho() {
   const [cartData, setCartData] = useState<CartData | null>(null);
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('');
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -45,6 +47,8 @@ function Carrinho() {
       try {
         await FinishPurchase(cartData.user_id, cartData.id, selectedPaymentMethod);
         console.log("Compra finalizada com sucesso");
+        setShowSuccessModal(true); // Mostra o modal de sucesso
+        // Não redireciona imediatamente, pois queremos mostrar o modal de sucesso primeiro
       } catch (error) {
         console.error("Erro ao finalizar a compra:", error);
       }
@@ -121,6 +125,13 @@ function Carrinho() {
           </div>
         )}
       </div>
+
+      <SuccessModal isOpen={showSuccessModal} onClose={() => setShowSuccessModal(false)} 
+        mensagem1="Pagamento bem-sucedido!" 
+        mensagem2="Seu pagamento foi realizado com sucesso. Enviamos um e-mail com os detalhes do seu pedido." 
+        rota="/profile/orders" 
+      />
+
       <Footer />
     </div>
   );
