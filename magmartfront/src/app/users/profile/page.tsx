@@ -2,7 +2,7 @@
 
 // Arquivo Product.js
 import React,{ useEffect, useState } from 'react';
-import styles from '@/styles/Product.module.css';
+import styles from '@/styles/Profile.module.css';
 import "@/app/globals.css";
 import Image from 'next/image'
 import { useRouter } from 'next/router';
@@ -13,27 +13,55 @@ import addToCart from '@/app/api/addToCart';
 import Cookies from 'js-cookie';
 import GetUserByCookie from '@/app/api/getUserByCookie'
 import { UserData } from '@/components/myTypes/UserTypes';
+import CardActions from '@mui/material';
+import {Card, Avatar, CardContent, Typography, CircularProgress, Box, ThemeProvider, Divider} from '@mui/material';
+
+
 
 function Profile() {
     const [name, setName] = useState('');
     const [birth, setBirth] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
+    const [experience, setExperience] = useState(0);
+    const [minimal_experience, setMinExp] = useState(0);
+    const [limit_experience, setMaxExp] = useState(0);
+    const [tier_name, setTierName] = useState('');
+    const progress = ((experience - minimal_experience) / (limit_experience - minimal_experience)) * 100;
+
     let data: UserData;
+    let formatedDate;
+    const formatPhoneNumber = (phone: string): string => {
+        // Remove o código do país (+55) e outros caracteres que não sejam dígitos
+        const cleaned = phone.replace(/^(\+55)/, '').replace(/\D/g, '');
+        const match = cleaned.match(/^(\d{2})(\d{5})(\d{4})$/);
+      
+        if (match) {
+          return `(${match[1]}) ${match[2]}-${match[3]}`;
+        }
+      
+        return phone; // Retorna o número original se não puder formatar
+      };
+    //const formattedPhone = formatPhoneNumber(phone);
     useEffect(() => {
         async function getdados() {
             try {
                 data = await GetUserByCookie();
 
                 console.log("Data ->, \n", data);
-                
-                setBirth(data.birth_date)
+                formatedDate = new Date(data.birth_date).toLocaleDateString("pt-BR")
+                console.log("FD ->, ", formatedDate);
+                setBirth(formatedDate)
                 setName(data.name)
-                setPhone(data.phone)
+                setPhone(formatPhoneNumber(data.phone))
                 setEmail(data.email)
+                setExperience(data.status.experience)
+                setMinExp(data.status.tiers.minimal_experience)
+                setMaxExp(data.status.tiers.limit_experience)
+                setTierName(data.status.tiers.name)
                 console.log(data)
-            } catch {
-                console.log('erro')
+            } catch(e: any) {
+                console.log(e.message)
             }
         }
 
@@ -41,17 +69,92 @@ function Profile() {
     }, []);
 
   return (
-      <div>
+      <div className={styles.containerProfile}>
           <Navbar />
           <div className="flex flex-row justify-center items-center gap-4 p-8">
-                <p className={`m-0 max-w-[200ch] text-sm text-balance`}>
-                    Nome: {name}<br/>
-                    Data de nascimento: {birth}<br />
-                    Número: {phone}<br/>
-                    Email: {email}<br/>
-                </p>
+          <Card sx={{ maxWidth: 600, padding: 4 }}>
+            <CardContent>
+            <div className="flex flex-row justify-center items-center gap-4 p-8 scale-125">
+                <div>
+                <Avatar sx={{ width: 56, height: 56, mb: 2 }}>
+                {name.charAt(0).toUpperCase()}
+                </Avatar>
+                <Typography variant="h5" component="div">
+                {name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                {email}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                {phone}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                Nascimento: {birth}
+                </Typography>
+                </div>
+                <Divider orientation="vertical" flexItem />
+                
+                <div className="flex-column justify-center items-center gap-4 p-2">
+                    <Box sx={{ position: 'relative', display: 'inline-flex', ml: 2 }}>
+                        <CircularProgress variant="determinate" value={progress} size={56} color="warning" />
+                        <Box
+                        sx={{
+                            top: 0,
+                            left: 0,
+                            bottom: 0,
+                            right: 0,
+                            position: 'absolute',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                        >
+                        <Typography variant="caption" component="div" color="text.secondary">
+                            {`${Math.round(progress)}%`}
+                        </Typography>
+                        </Box>
+                    </Box>
+                    
+                <Typography variant="h5" component="div">
+                {experience}/{limit_experience}
+                </Typography>
+                <ThemeProvider
+                    theme={{
+                        palette: {
+                        primary: {
+                            main: '#FFD54F',
+                            dark: '#FFCA28',
+                        },
+                        },
+                    }}
+                    >
+                    <Box
+                        display="flex"
+                        alignItems="center"
+                        gap={4}
+                        p={2}           
+                        sx={{
+                        width: 100,
+                        height: 30,
+                        borderRadius: 1,
+                        bgcolor: 'primary.main',
+                        '&:hover': {
+                            bgcolor: 'primary.dark',
+                        },
+                        }}
+                    >
+                        {tier_name}
+                    </Box>
+                </ThemeProvider>
+                </div>
+                </div>
+            </CardContent>
+            </Card>
+                           
           </div>
-          <Footer />
+          <div className={styles.copyright}>
+            <Footer />
+          </div>
       </div>
   );
 }
