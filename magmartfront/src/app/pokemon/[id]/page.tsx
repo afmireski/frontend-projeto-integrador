@@ -11,6 +11,36 @@ import Card from '@/components/Card';
 import Footer from '@/components/Footer';
 import GetPokemon from '@/APIs/getPokemon';
 import addToCart from '@/app/api/addToCart';
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+
+const getTypeColor = (type: string) => {
+    switch(type) {
+        case "bug":
+            return "#a6b61f";
+        case "poison":
+            return "#904391";
+        case "water":
+            return "#3091f2";
+        case "flying":
+            return "#92a3f1";
+        case "normal":
+            return "#c3bcb2";
+        case "fire":
+            return "#e73b0d";
+        case "grass":
+            return "#6fc033";
+    }
+}
+
+const PokemonTypeButton = styled(Button)({
+    borderRadius: '20px',
+    border: '2px solid black',
+    color: 'white',
+    width: '10rem',
+    fontSize: '15px',
+    boxShadow: '1px 1px 40px 0px rgba(255, 255, 255, 0.1) inset'
+})
 
 function Product({params}: {params: {id: string}}) {
     const [pok_id, setPokId] = useState('');
@@ -45,7 +75,7 @@ function Product({params}: {params: {id: string}}) {
                     setImage(data.image_url);
                     setType((data.types.reduce((types, type)=>{
                         return types.concat(` ${type.name}`)
-                    },"")));
+                    },"")).trim());
                     setTierName(data.tier.name);
                     setMinExp(data.tier.minimal_experience);
                     setLimitExp(data.tier.limit_experience);
@@ -73,22 +103,19 @@ function Product({params}: {params: {id: string}}) {
           <Navbar />
           <div className="flex flex-row justify-center items-center gap-4 p-8">
             <div className='image'>
-                <img src={image} alt='test'></img>
+                <img src={image} alt={name}></img>
             </div>
-            <div className='description'>
-                <p className={`m-0 max-w-[200ch] text-sm text-balance`}>
-                    {name}<br/>
-                    Id: {pok_id}<br/>
-                    Número: {ref_id}<br/>
-                    Type: {type}
-                </p>
+            <div className='description tracking-wide'>
+                {/* <h1 className="font-normal uppercase" style={{ fontFamily: '"Flexo-Regular",arial,sans-serif', fontSize: '1.5rem' }}>{name}</h1><br></br> */}
+                <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-blue-600 from-green-400">{name}</span></h1>
+                {type.split(' ').map((t) => (
+                        <PokemonTypeButton style={{ backgroundColor: getTypeColor(t) }} className="mr-4 font-mono font-black align-middle">{t}</PokemonTypeButton>
+                ))}
                 <p className={`m-0 max-w-[100ch] text-sm text-balance`}>
                     Exp: {exp} <br/>
                     Weight: {weight}<br/>
                     Height: {height}<br/>
                     Tier: {tier_name}<br/>
-                    Minimal experience required: {min_exp}<br/>
-                    Limit of experience: {limit_exp}
                 </p>
                 <p className={`m-0 max-w-[100ch] text-sm text-balance`}>
                     Price: {price} <br/>
