@@ -28,7 +28,7 @@ function Product({params}: {params: {id: string}}) {
                     setName(data.Name);
                     setPhone(data.Phone);
                     setEmail(data.Email);
-                    setBirth(data.BirthDate);
+                    setBirth(data.birth_date);
                     setRole(data.Role);
                     console.log(data)
                 //}
