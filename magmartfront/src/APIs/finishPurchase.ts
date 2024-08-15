@@ -1,16 +1,16 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-async function FinishPurchase() {
+async function FinishPurchase(user_id: string, cart_id: string, payment_method_id: string) {
     const token = Cookies.get('authToken');
 
     try {
         const response = await axios.post(
             `${process.env.API_URL}/purchases/finish`, // URL da API
             { // Dados do corpo da requisição
-                "user_id": "e0353a92-d5b2-4ae7-af00-b9947eb72ea6",
-                "cart_id": "10c9f5f8-26de-4b3e-a977-685f416503e1",
-                "payment_method_id": "8c75baa8-ac41-4bff-a8a0-89c777ecde27"
+                user_id: user_id,
+                cart_id: cart_id,
+                payment_method_id: payment_method_id
             },
             { // Cabeçalhos
                 headers: {

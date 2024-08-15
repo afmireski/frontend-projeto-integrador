@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { UserData } from '@/components/myTypes/UserTypes';
+import Cookies from 'js-cookie';
 
-async function GetUserById( id: string ){
+async function GetUserById(){
+const token = Cookies.get('authToken');
     return Promise.resolve(axios.get<UserData>(`${process.env.API_URL}/users/profile`, {
         headers: {
           'Content-Type': 'application/json',
