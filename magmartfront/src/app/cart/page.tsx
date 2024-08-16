@@ -48,6 +48,14 @@ function Carrinho() {
     setSelectedPaymentMethod(event.target.value); // Atualiza o método de pagamento selecionado
   };
 
+  const handleShowPaymentOptions = () => {
+    if (cartData && cartData.items.length > 0) {
+      setShowPaymentOptions(true);
+    } else {
+      console.log("O carrinho está vazio. Não é possível finalizar a compra.");
+    }
+  };
+
   const handlePurchase = async () => {
     if (cartData && cartData.items.length > 0 && selectedPaymentMethod) {
       try {
@@ -123,47 +131,47 @@ function Carrinho() {
           </div>
           <div className="flex flex-row w-[30%] h-1/2 rounded-md shadow-2xl gap-4 p-8 flex-wrap overflow-hidden">
             <div className="flex flex-row w-full h-1/3 rounded overflow-hidden shadow-xl">
-              {showPaymentOptions ? (
-                <div className="px-6 py-4">
-                  <div className="font-bold text-lg mb-2">
-                    <label>Escolha sua Forma de pagamento</label>
-                    <select
-                      className="border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      value={selectedPaymentMethod}
-                      onChange={handlePaymentMethodChange}
-                    >
-                      {paymentMethods.map((method) => (
-                        <option key={method.id} value={method.id}>
-                          {method.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <button
-                    className="bg-orange-600 w-full p-2 rounded-md"
-                    onClick={handlePurchase}
-                  >
-                    Finalizar pagamento
-                  </button>
+              <div className="px-6 py-4">
+                <div className="font-bold text-lg mb-2">
+                  {`Subtotal (${cartData?.items.length || 0} produtos) R$${
+                    cartData?.total || 0
+                  }`}
                 </div>
-              ) : (
-                <div className="px-6 py-4">
-                  <div className="font-bold text-lg mb-2">
-                    {`Subtotal (${cartData?.items.length || 0} produtos) R$${
-                      cartData?.total || 0
-                    }`}
-                  </div>
-                  <button
-                    className="bg-orange-600 w-full p-2 rounded-md"
-                    onClick={() => setShowPaymentOptions(true)}
-                  >
-                    Fechar pedido
-                  </button>
-                </div>
-              )}
+                <button
+                  className="bg-orange-600 w-full p-2 rounded-md"
+                  onClick={handleShowPaymentOptions}
+                >
+                  Fechar pedido
+                </button>
+              </div>
             </div>
           </div>
         </div>
+        {showPaymentOptions && ( // Renderiza o bloco de pagamento apenas se showPaymentOptions for true
+                  <div className="flex flex-row w-[90%] h-1/2 justify-center rounded-md shadow-2xl gap-4 p-8 flex-wrap overflow-hidden">
+                      <div className="flex flex-row justify-center w-[50%] h-1/3 rounded overflow-hidden shadow-xl">
+                          <div className="flex flex-col items-center justify-center px-6 ">
+                              <div>
+                                  <label htmlFor="">Escolha sua Forma de pagamento</label>
+                                  <select
+                                    className="border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    value={selectedPaymentMethod}
+                                    onChange={handlePaymentMethodChange}
+                                  >
+                                    {paymentMethods.map((method) => (
+                                      <option key={method.id} value={method.id}>
+                                        {method.name}
+                                      </option>
+                                    ))}
+                                  </select>
+                              </div>
+                              <button className='bg-orange-600 m-20 w-full p-2 rounded-md' onClick={handlePurchase}>
+                                  Finalizar pagamento
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              )}
       </div>
 
       <SuccessModal
