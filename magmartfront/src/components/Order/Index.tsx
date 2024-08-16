@@ -39,7 +39,7 @@ export default function Order({ order }) {
       </div>
       <hr className="my-1" style={{ "color": "rgb(222, 224, 228)" }}></hr>
       <div className="mx-3 my-2 w-full flex justify-between items-center font-bold">
-      {order.is_accepted ? (
+      {order.is_approved ? (
         <div className="text-green-600">Pagamento confirmado</div>
         ) : (
         <div className="text-red-600">Aguardando confirmação</div>

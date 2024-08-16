@@ -48,7 +48,7 @@ export default function Orders() {
         <BasicBreadcrumbs path={breadcrumbs} />
         <hr className="h-px mb-8 mt-4" style={{ "color": "rgb(222, 224, 228)" }}></hr>
       </Container>
-      <Container>
+      <Container className='min-h-screen'>
         {orders.map((order: any, key) => (
           <Order key={key} order={order} />
         ))}

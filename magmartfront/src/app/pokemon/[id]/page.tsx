@@ -1,10 +1,10 @@
 "use client";
 
 // Arquivo Product.js
-import React,{ useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '@/styles/Product.module.css';
 import "@/app/globals.css";
-import Image from 'next/image'
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Navbar from '@/components/Navbar';
 import Card from '@/components/Card';
@@ -15,6 +15,7 @@ import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import slugify from '@/utils/string';
+import SuccessModal from '@/components/SucessModel'; // Importa o modal de sucesso
 
 
 const getNamingColorByType = (type: string) => {
@@ -114,7 +115,35 @@ const PokemonTierButton = styled(Button)({
     fontWeight: '700',
 })
 
-function Product({params}: {params: {id: string}}) {
+const getTypeColor = (type: string) => {
+    switch (type) {
+        case "bug":
+            return "#a6b61f";
+        case "poison":
+            return "#904391";
+        case "water":
+            return "#3091f2";
+        case "flying":
+            return "#92a3f1";
+        case "normal":
+            return "#c3bcb2";
+        case "fire":
+            return "#e73b0d";
+        case "grass":
+            return "#6fc033";
+    }
+};
+
+const PokemonTypeButton = styled(Button)({
+    borderRadius: '20px',
+    border: '2px solid black',
+    color: 'white',
+    width: '10rem',
+    fontSize: '15px',
+    boxShadow: '1px 1px 40px 0px rgba(255, 255, 255, 0.1) inset'
+});
+
+function Product({ params }: { params: { id: string } }) {
     const [pok_id, setPokId] = useState('');
     const [ref_id, setRefId] = useState(1);
     const [name, setName] = useState('');
@@ -129,12 +158,13 @@ function Product({params}: {params: {id: string}}) {
     const [min_exp, setMinExp] = useState(1);
     const [limit_exp, setLimitExp] = useState(1);
     const [quantity, setQuantity] = useState(1);
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // Estado do modal de sucesso
+
     let data;
+
     useEffect(() => {
         async function getdados() {
             try {
-                //setPokId(queryString);
-                //if (typeof router.query.data === 'string') {
                     data = await GetPokemon(params.id);
                     setPokId(data.id);
                     setRefId(data.reference_id);
@@ -151,23 +181,24 @@ function Product({params}: {params: {id: string}}) {
                     setTierName(data.tier.name);
                     setMinExp(data.tier.minimal_experience);
                     setLimitExp(data.tier.limit_experience);
-                    console.log(data)
-                //}
-                
             } catch {
-                console.log('erro')
+                console.log('erro');
             }
         }
 
         getdados();
     }, []);
 
-    // Função para lidar com o clique no botão "Adicionar ao Carrinho"
-    const handleAddToCart = () => {
+    const handleAddToCart = async () => {
         const userId = "e0353a92-d5b2-4ae7-af00-b9947eb72ea6"; // Substitua pelo ID do usuário autenticado
-        const pokemonId = params.id; // Substitua pelo ID do pokémon
-        const qtty = quantity; // Quantidade a ser adicionada ao carrinho
-        addToCart(userId, pokemonId, qtty);
+        const pokemonId = params.id;
+        const qtty = quantity;
+
+        const success = await addToCart(userId, pokemonId, qtty);
+        console.log(success)
+        if (success) {
+            setIsSuccessModalOpen(true); // Abre o modal de sucesso
+        }
     };
 
     const { from, to } = getNamingColorByType(type.split(' ')[0]);
@@ -237,16 +268,46 @@ function Product({params}: {params: {id: string}}) {
                     <button className={`${getTypeColor(type.split(' ')[0])} ${getHoverColor(type.split(' ')[0])} text-white font-bold py-2 px-4`} onClick={handleAddToCart}>
                         Adicionar ao Carrinho
                     </button>
+
                 </div>
-                <div>
-                    <label>Quantidade: </label>
-                    <input type="number" id="pokemon" name="bought" onChange={(e) => setQuantity(Number(e.target.value))} defaultValue={1} min={1} max={stock} />
+                <div className='description tracking-wide'>
+                    <h1 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r to-blue-600 from-green-400">{name}</span>
+                    </h1>
+                    {type.split(' ').map((t) => (
+                        <PokemonTypeButton key={t} style={{ backgroundColor: getTypeColor(t) }} className="mr-4 font-mono font-black align-middle">{t}</PokemonTypeButton>
+                    ))}
+                    <p className="m-0 max-w-[100ch] text-sm text-balance">
+                        Exp: {exp} <br />
+                        Weight: {weight}<br />
+                        Height: {height}<br />
+                        Tier: {tier_name}<br />
+                    </p>
+                    <p className="m-0 max-w-[100ch] text-sm text-balance">
+                        Price: {price} <br />
+                        In Stock: {stock}
+                    </p>
+                    <div>
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleAddToCart}>
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                    <div>
+                        <label>Quantidade: </label>
+                        <input type="number" id="pokemon" name="bought" onChange={(e) => setQuantity(Number(e.target.value))} defaultValue={1} min={1} max={stock} />
+                    </div>
                 </div>
-            </div> 
-          </div>
-          <Footer />
-      </div>
-  );
+            </div>
+            <Footer />
+            <SuccessModal
+                isOpen={isSuccessModalOpen}
+                onClose={() => setIsSuccessModalOpen(false)}
+                mensagem1="Produto adicionado ao carrinho!"
+                mensagem2="Você pode continuar comprando ou finalizar a compra."
+                rota="/cart"
+            />
+        </div>
+    );
 }
 
 export default Product;
