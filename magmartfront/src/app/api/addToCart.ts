@@ -23,7 +23,7 @@ async function addToCart(userId, pokemonId, quantity) {
             const errorData = await response.json();
             console.error('Erro ao adicionar item ao carrinho:', errorData);
         }
-        return response;
+        return response.ok;
     } catch (error) {
         console.error('Erro de rede:', error);
     }

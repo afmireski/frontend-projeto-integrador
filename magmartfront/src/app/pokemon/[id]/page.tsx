@@ -96,12 +96,10 @@ function Product({ params }: { params: { id: string } }) {
         const qtty = quantity;
 
         const success = await addToCart(userId, pokemonId, qtty);
-        const timer = setTimeout(() => {
-            console.log(success)
-            if (success) {
-                setIsSuccessModalOpen(true); // Abre o modal de sucesso
-            }
-          }, 1000);
+        console.log(success)
+        if (success) {
+            setIsSuccessModalOpen(true); // Abre o modal de sucesso
+        }
     };
 
     return (
