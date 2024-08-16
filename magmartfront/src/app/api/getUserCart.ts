@@ -2,7 +2,6 @@ import axios from 'axios';
 import { CartData } from '@/components/myTypes/CartType';
 import Cookies from 'js-cookie';
 
-
 function GetUserCart() {
   const token = Cookies.get('authToken');
   return axios.get<CartData>(`${process.env.API_URL}/cart`, {

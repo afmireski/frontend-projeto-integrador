@@ -1,6 +1,6 @@
-import React from 'react';
-import Image from 'next/image';
 import { Button } from '@mui/material';
+import Cookies from 'js-cookie';
+import Image from 'next/image';
 
 function Navbar() {
     return (

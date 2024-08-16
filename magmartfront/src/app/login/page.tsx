@@ -1,6 +1,5 @@
-// src/app/login/page.tsx
-
 "use client";
+
 import React, { useState } from 'react';
 import styles from '@/styles/Login.module.css';
 import "../globals.css";
