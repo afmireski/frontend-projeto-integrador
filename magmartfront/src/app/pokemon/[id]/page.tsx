@@ -60,19 +60,19 @@ const getNamingColorByType = (type: string) => {
 const getTypeColor = (type: string) => {
     switch(type) {
         case "bug":
-            return "green-400";
+            return "bg-green-400";
         case "poison":
-            return "purple-600";
+            return "bg-purple-600";
         case "water":
-            return "blue-500";
+            return "bg-blue-500";
         case "flying":
-            return "blue-300";
+            return "bg-blue-300";
         case "normal":
-            return "gray-400";
+            return "bg-gray-400";
         case "fire":
-            return "orange-500";
+            return "bg-orange-500";
         case "grass":
-            return "green-500";
+            return "bg-green-500";
     }
 }
 
@@ -172,17 +172,17 @@ function Product({params}: {params: {id: string}}) {
 
     const { from, to } = getNamingColorByType(type.split(' ')[0]);
 
-    const getCardColor = () => {
-        const tmp = type.split(' ');
-        console.log(tmp);
-        if (tmp.length > 1) {
-            const primaryColor = getTypeColor(tmp[0])?.replace(/\d{3}$/, '500');
-            const secondaryColor = getTypeColor(tmp[1])?.replace(/\d{3}$/, '500');
-            // return `from-${primaryColor} to-${secondaryColor}`;
-            return `to-${getTypeColor(tmp[1])} from-${getTypeColor(tmp[0])}`;
-        }
-        return `bg-${getTypeColor(tmp[0])}`;
-    }
+    // const getCardColor = () => {
+    //     const tmp = type.split(' ');
+    //     console.log(tmp);
+    //     if (tmp.length > 1) {
+    //         const primaryColor = getTypeColor(tmp[0])?.replace(/\d{3}$/, '500');
+    //         const secondaryColor = getTypeColor(tmp[1])?.replace(/\d{3}$/, '500');
+    //         // return `from-${primaryColor} to-${secondaryColor}`;
+    //         return `to-${getTypeColor(tmp[1])} from-${getTypeColor(tmp[0])}`;
+    //     }
+    //     return `bg-${getTypeColor(tmp[0])}`;
+    // }
 
     const getTierBGColor = () => {
         const tier = slugify(tier_name);
@@ -211,9 +211,9 @@ function Product({params}: {params: {id: string}}) {
                     </span>
                 </h1>
                 {type.split(' ').map((t, key) => (
-                    <PokemonTypeButton key={key} className={`bg-${getTypeColor(t)} ${getHoverColor(t)} mr-4 font-mono font-black align-middle`}>{t}</PokemonTypeButton>
+                    <PokemonTypeButton key={key} className={`${getTypeColor(t)} ${getHoverColor(t)} mr-4 font-mono font-black align-middle`}>{t}</PokemonTypeButton>
                 ))}
-                <Grid style={{ fontSize: '17px', width: '25rem' }} className={`bg-${getTypeColor( type.split(' ')[0] )} rounded-md font-mono font-semibold text-white my-5 mx-2`} container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid style={{ fontSize: '17px', width: '25rem' }} className={`${getTypeColor( type.split(' ')[0] )} rounded-md font-mono font-semibold text-white my-5 mx-2`} container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 {/* <Grid className={`bg-gradient-to-br ${getCardColor()} rounded-md font-mono font-semibold text-white my-5 mx-2`} style={{ fontSize: '17px', width: '25rem' }} container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}> */}
                     <Grid item xs={6} className="mt-3 mb-4">
                         <p>Altura</p>
