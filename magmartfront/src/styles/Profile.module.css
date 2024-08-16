@@ -1,0 +1,14 @@
+.containerProfile{
+    height: 100vh;
+    background: url('../../public/GoldTrainer.png') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.copyright {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
