@@ -232,7 +232,7 @@ function Product({ params }: { params: { id: string } }) {
                     </Grid>
                     <Grid item xs={6} className="mb-5">
                         <p>Estoque</p>
-                        <p className='text-black'>{quantity}</p>
+                        <p className='text-black'>{stock}</p>
                     </Grid>
                 </Grid>
                 <PokemonTierButton disabled className={`${getTierBGColor()} mr-4 mb-4 font-mono align-middle`}>{tier_name}</PokemonTierButton>
