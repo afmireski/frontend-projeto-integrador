@@ -16,6 +16,7 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import slugify from '@/utils/string';
 import SuccessModal from '@/components/SucessModel'; // Importa o modal de sucesso
+import TextField from '@mui/material/TextField';
 
 
 const getNamingColorByType = (type: string) => {
@@ -235,22 +236,36 @@ function Product({ params }: { params: { id: string } }) {
                         <p className='text-black'>{stock}</p>
                     </Grid>
                 </Grid>
-                <PokemonTierButton disabled className={`${getTierBGColor()} mr-4 mb-4 font-mono align-middle`}>{tier_name}</PokemonTierButton>
-                <div>
-                    <button className={`${getTypeColor(type.split(' ')[0])} ${getHoverColor(type.split(' ')[0])} text-white font-bold py-2 px-4`} onClick={handleAddToCart}>
-                        Adicionar ao Carrinho
-                    </button>
+                <PokemonTierButton disabled className={`${getTierBGColor()} mr-4 mb-6 font-mono align-middle`}>{tier_name}</PokemonTierButton>
+                <div className='grid grid-cols-2 border-t-2 border-b-2 border-solid border-green-600 p-5' style={{}}>
+                    <div>
+                        <TextField
+                            id="item-quantity"
+                            label="Quantidade"
+                            type="number"
+                            size="small"
+                            sx={{ width: '10ch' }}
+                            InputLabelProps={{
+                            shrink: true,
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <button className={`${getTypeColor(type.split(' ')[0])} ${getHoverColor(type.split(' ')[0])} text-white font-bold py-2 px-4`} onClick={handleAddToCart}>
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
                 </div>
             </div>
             </div>
             <Footer />
-            <SuccessModal
+            {/* <SuccessModal
                 isOpen={isSuccessModalOpen}
                 onClose={() => setIsSuccessModalOpen(false)}
                 mensagem1="Produto adicionado ao carrinho!"
                 mensagem2="Você pode continuar comprando ou finalizar a compra."
                 rota="/cart"
-            />
+            /> */}
         </div>
     );
 }
