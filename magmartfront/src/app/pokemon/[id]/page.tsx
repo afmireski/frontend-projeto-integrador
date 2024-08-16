@@ -188,7 +188,7 @@ function Product({params}: {params: {id: string}}) {
         const tier = slugify(tier_name);
 
         switch(tier) {
-            case "inicial": return "bg-gray-300";
+            case "inicial": return "bg-gray-400";
             case "comum": return "bg-gray-500";
             case "incomum": return "bg-blue-400";
             case "raro": return "bg-orange-400";
@@ -234,7 +234,7 @@ function Product({params}: {params: {id: string}}) {
                 </Grid>
                 <PokemonTierButton disabled className={`${getTierBGColor()} mr-4 mb-4 font-mono align-middle`}>{tier_name}</PokemonTierButton>
                 <div>
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleAddToCart}>
+                    <button className={`${getTypeColor(type.split(' ')[0])} ${getHoverColor(type.split(' ')[0])} text-white font-bold py-2 px-4`} onClick={handleAddToCart}>
                         Adicionar ao Carrinho
                     </button>
                 </div>
