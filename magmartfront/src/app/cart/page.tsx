@@ -8,6 +8,9 @@ import Footer from '@/components/Footer';
 import { CartData, CartItem } from '@/components/myTypes/CartType';
 import GetUserCart from '../api/getUserCart';
 import GetPaymentMethods, { PaymentMethod } from '@/APIs/getPaymentMethods';
+import CardCarrinho from '@/components/CardCarrinho';
+import Link from 'next/link';
+import removeItemFromCart from '@/APIs/removeItemFromCart';
 import FinishPurchase from '@/APIs/finishPurchase';
 import SuccessModal from '@/components/SucessModel';
 
@@ -18,23 +21,24 @@ function Carrinho() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const cart = await GetUserCart();  // Busca o carrinho do usuário
-        setCartData(cart);
+  async function fetchData() {
+    try {
+      const cart = await GetUserCart();  // Busca o carrinho do usuário
+      setCartData(cart);
 
-        const methods = await GetPaymentMethods();  // Busca os métodos de pagamento
-        setPaymentMethods(methods);
+      const methods = await GetPaymentMethods();  // Busca os métodos de pagamento
+      setPaymentMethods(methods);
 
-        if (methods.length > 0) {
-          setSelectedPaymentMethod(methods[0].id); // Define o primeiro método como padrão
-        }
-      } catch (error) {
-        console.error('Erro ao buscar dados:', error);
+      if (methods.length > 0) {
+        setSelectedPaymentMethod(methods[0].id); // Define o primeiro método como padrão
       }
+    } catch (error) {
+      console.error('Erro ao buscar dados:', error);
     }
+  }
 
+
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -55,6 +59,15 @@ function Carrinho() {
     } else {
       console.log("O carrinho está vazio ou nenhum método de pagamento foi selecionado.");
     }
+  };
+
+  const handleDelete = async (id: string, cart_id: string) => {
+    console.log("deleting\n ", id);
+
+    await removeItemFromCart(cart_id, id);
+    await fetchData();
+
+    console.log("Item deleted\n ", id);
   };
 
   return (
@@ -81,6 +94,9 @@ function Carrinho() {
                     <label>Quantidade</label>
                     <div className="text-xl mb-2">{item.quantity}</div>
                   </div>
+                </div>
+                <div className='m-5'>
+                  <button className="bg-red-600 w-6 h-6" onClick={() => handleDelete(item.id, item.cart_id)}>x</button>
                 </div>
               </div>
             ))}
@@ -128,7 +144,7 @@ function Carrinho() {
 
       <SuccessModal isOpen={showSuccessModal} onClose={() => setShowSuccessModal(false)} 
         mensagem1="Pagamento bem-sucedido!" 
-        mensagem2="Seu pagamento foi realizado com sucesso. Enviamos um e-mail com os detalhes do seu pedido." 
+        mensagem2="Seu pagamento foi realizado com sucesso." 
         rota="/profile/orders" 
       />
 
