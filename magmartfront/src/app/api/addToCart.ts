@@ -1,5 +1,5 @@
-// cart.js
 import Cookies from 'js-cookie';
+
 // Função para adicionar um item ao carrinho
 async function addToCart(userId, pokemonId, quantity) {
     try {
@@ -15,17 +15,18 @@ async function addToCart(userId, pokemonId, quantity) {
                 quantity: parseInt(quantity),
             }),
         });
-
-        if (response.ok) {
-            const data = await response.json();
-            console.log('Item adicionado ao carrinho:', data);
+        console.log(response.status)
+        if (response.status==201) {
+            console.log('Item adicionado ao carrinho:');
+            return { success: true};
         } else {
             const errorData = await response.json();
             console.error('Erro ao adicionar item ao carrinho:', errorData);
+            return { success: false, error: errorData };
         }
-        return response.ok;
     } catch (error) {
         console.error('Erro de rede:', error);
+        return { success: false, error: error.message };
     }
 }
 

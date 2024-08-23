@@ -130,7 +130,8 @@ function Product({ params }: { params: { id: string } }) {
     const [min_exp, setMinExp] = useState(1);
     const [limit_exp, setLimitExp] = useState(1);
     const [quantity, setQuantity] = useState(1);
-    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // Estado do modal de sucesso
+    const [isSuccessModalOpen200, setIsSuccessModalOpen200] = useState(false); // Estado do modal de sucesso
+    const [isSuccessModalOpen400, setIsSuccessModalOpen400] = useState(false);
 
     let data;
 
@@ -168,8 +169,11 @@ function Product({ params }: { params: { id: string } }) {
 
         const success = await addToCart(userId, pokemonId, qtty);
         console.log(success)
-        if (success) {
-            setIsSuccessModalOpen(true); // Abre o modal de sucesso
+        if (success.success) {
+            setIsSuccessModalOpen200(true); // Abre o modal de sucesso
+        }
+        else{
+            setIsSuccessModalOpen400(true); // Abre o modal de falha
         }
     };
 
@@ -203,7 +207,7 @@ function Product({ params }: { params: { id: string } }) {
   return (
       <div>
           <Navbar />
-          <div className="flex flex-row justify-center items-center gap-4 p-8">
+          <div className="flex flex-row justify-center min-h-screen items-center gap-4 p-8">
             <div className='image'>
                 <img src={image} alt={name}></img>
             </div>
@@ -245,11 +249,20 @@ function Product({ params }: { params: { id: string } }) {
             </div>
             <Footer />
             <SuccessModal
-                isOpen={isSuccessModalOpen}
-                onClose={() => setIsSuccessModalOpen(false)}
+                isOpen={isSuccessModalOpen200}
+                onClose={() => setIsSuccessModalOpen200(false)}
                 mensagem1="Produto adicionado ao carrinho!"
                 mensagem2="Você pode continuar comprando ou finalizar a compra."
                 rota="/cart"
+                erro={false}
+            />
+             <SuccessModal
+                isOpen={isSuccessModalOpen400}
+                onClose={() => setIsSuccessModalOpen400(false)}
+                mensagem1="Erro ao adicionar produto carrinho!"
+                mensagem2="favor tente mais tarde"
+                rota="/cart"
+                erro={true}
             />
         </div>
     );
