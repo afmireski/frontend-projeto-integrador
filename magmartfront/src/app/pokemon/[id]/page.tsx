@@ -245,6 +245,7 @@ function Product({ params }: { params: { id: string } }) {
                             type="number"
                             size="small"
                             sx={{ width: '10ch' }}
+                            defaultValue={1}
                             InputLabelProps={{
                             shrink: true,
                             }}
