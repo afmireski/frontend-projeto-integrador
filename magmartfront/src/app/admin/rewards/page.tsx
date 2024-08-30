@@ -12,33 +12,37 @@ import * as React from 'react';
 
 export default function Rewards() {
   const initialTabSelected = 0;  
-  const [value, setValue] = React.useState(initialTabSelected);
+  const mapPrizeTypes = ["pokemon", ""];
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+  const [tab, setTab] = React.useState(initialTabSelected);
+  const [prizeType, setPrizeType] = React.useState(mapPrizeTypes[0]);
+  
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTab(newValue);
+    setPrizeType(mapPrizeTypes[newValue]);
   };
 
   return (
     <div>
       <Navbar />
-      <Box sx={{ backgroundColor: '#FF7043', minHeight: '100vh', padding: 4 }}>
+      <Box sx={{ backgroundColor: '#86BBD8', minHeight: '100vh', padding: 4 }}>
         <Container maxWidth="sm">
           <Paper 
             elevation={3} 
             sx={{ 
               padding: 4, 
-              backgroundColor: '#FFE0B2',
+              backgroundColor: '#cbf3f0',
               borderRadius: '12px' 
             }}
           >
             <div className="grid justify-items-center">
-              <Tabs value={value} onChange={handleChange} aria-label="disabled tabs example">
+              <Tabs value={tab} onChange={handleTabChange} aria-label="disabled tabs example">
                 <Tab label="Pokémon" />
-                <Tab label="Futuras" disabled />
+                <Tab label="Outros"  />
               </Tabs>
             </div>
             <Box sx={{ mt: 4 }}>
-              <RewardForm />
+              <RewardForm prizeType={prizeType} />
             </Box>
           </Paper>
         </Container>
