@@ -1,15 +1,13 @@
 "use client"
 import React,{ useState, useEffect } from 'react';
 import Link from 'next/link';
-import styles from '@/styles/Home.module.css';
 import "@/app/globals.css";
-import Image from 'next/image'
 import Navbar from '@/components/Navbar';
-import Card from '@/components/Card';
 import Footer from '@/components/Footer';
 import { type } from 'os';
-import GetAllPokemon from '@/app/api/getAllPokemon';
 import slugify from '@/utils/string';
+import GetPokedex from '@/APIs/getPokedex';
+import { PokedexData } from '@/components/myTypes/PodedexPokemonTypes';
 
 export type type = {
     id: string;
@@ -28,15 +26,14 @@ export type PokemonData = {
 }
 
 function Pokedex() {
-
-    const [pokemons, setPokemons] = useState<PokemonData[]>([]);
-    const [pokemonsToDisplay, setPokemonsToDisplay] = useState<PokemonData[]>([]);
+    const [pokemons, setPokemons] = useState<PokedexData[]>([]);
+    const [pokemonsToDisplay, setPokemonsToDisplay] = useState<PokedexData[]>([]);
     let data;
     useEffect(() => {
         async function getdados() {
             try {
-                data =  await GetAllPokemon();
-                const newArrayCopy: PokemonData[] = data.map((pokemon) => ({
+                data =  await GetPokedex();
+                const newArrayCopy: PokedexData[] = data.map((pokemon) => ({
                     ...pokemon,
                     slug: slugify(pokemon.name),
                 }));
@@ -83,7 +80,7 @@ function Pokedex() {
                                     <div className="mt-2 text-blue-500"> {pokeObj.types.map((tPok, index) => (
                                         <p key={index}>{tPok.name}</p>
                                     ))}</div>
-                                    <p className="mt-2 text-gray-500"> Price: P${pokeObj.price}</p>
+                                    <p className="mt-2 text-gray-500"> Quantidade: {pokeObj.quantity}</p>
                                 </div>
                             </div>
                         </Link>

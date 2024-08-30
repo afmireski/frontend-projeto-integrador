@@ -16,6 +16,8 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import slugify from '@/utils/string';
 import SuccessModal from '@/components/SucessModel'; // Importa o modal de sucesso
+import GetPokedexPokemon from '@/APIs/getPokedexPokemon';
+import { PokedexData } from '@/components/myTypes/PodedexPokemonTypes';
 
 
 const getNamingColorByType = (type: string) => {
@@ -122,37 +124,28 @@ function Dexmon({ params }: { params: { id: string } }) {
     const [weight, setWeight] = useState(1);
     const [height, setHeight] = useState(1);
     const [image, setImage] = useState('');
-    const [exp, setExp] = useState(1);
-    const [price, setPrice] = useState(1);
-    const [stock, setStock] = useState(1);
     const [type, setType] = useState('');
     const [tier_name, setTierName] = useState('');
-    const [min_exp, setMinExp] = useState(1);
-    const [limit_exp, setLimitExp] = useState(1);
     const [quantity, setQuantity] = useState(1);
-    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // Estado do modal de sucesso
 
     let data;
 
     useEffect(() => {
         async function getdados() {
             try {
-                    data = await GetPokemon(params.id);
-                    setPokId(data.id);
-                    setRefId(data.reference_id);
-                    setName(data.name);
-                    setWeight(data.weight);
-                    setHeight(data.height);
-                    setExp(data.experience);
-                    setPrice(data.price);
-                    setStock(data.in_stock);
-                    setImage(data.image_url);
-                    setType((data.types.reduce((types, type)=>{
-                        return types.concat(` ${type.name}`)
-                    },"")).trim());
-                    setTierName(data.tier.name);
-                    setMinExp(data.tier.minimal_experience);
-                    setLimitExp(data.tier.limit_experience);
+                data = await GetPokedexPokemon(params.id);
+                setPokId(data.id);
+                setRefId(data.reference_id);
+                setName(data.name);
+                setWeight(data.weight);
+                setHeight(data.height);
+                setImage(data.image_url);
+                setType((data.types.reduce((types, type)=>{
+                    return types.concat(` ${type.name}`)
+                },"")).trim());
+                setTierName(data.tier.name);
+                setQuantity(data.quantity);
+                    
             } catch {
                 console.log('erro');
             }
@@ -203,12 +196,8 @@ function Dexmon({ params }: { params: { id: string } }) {
                         <p className='text-black'>{weight} kg</p>
                     </Grid>
                     <Grid item xs={6} className="mb-5">
-                        <p>Preço</p>
-                        <p className='text-black'>P$ {price}</p>
-                    </Grid>
-                    <Grid item xs={6} className="mb-5">
-                        <p>Estoque</p>
-                        <p className='text-black'>{stock}</p>
+                        <p>Quantidade</p>
+                        <p className='text-black'>{quantity}</p>
                     </Grid>
                 </Grid>
                 <PokemonTierButton disabled className={`${getTierBGColor()} mr-4 mb-4 font-mono align-middle`}>{tier_name}</PokemonTierButton>
