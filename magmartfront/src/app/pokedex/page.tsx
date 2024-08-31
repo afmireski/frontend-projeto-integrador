@@ -8,6 +8,7 @@ import { type } from 'os';
 import slugify from '@/utils/string';
 import GetPokedex from '@/APIs/getPokedex';
 import { PokedexData } from '@/components/myTypes/PodedexPokemonTypes';
+import Image from 'next/image';
 
 export type type = {
     id: string;
@@ -68,7 +69,8 @@ function Pokedex() {
                 </div>
             </form>
           <div className="flex flex-row justify-center min-h-screen items-center gap-4 p-8 flex-wrap overflow-hidden">
-            {pokemonsToDisplay.map((pokeObj, index) => (
+            {pokemonsToDisplay.length > 0 ? (
+                pokemonsToDisplay.map((pokeObj, index) => (
                     <div key={index} className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
                         <Link href={`/pokedex/${pokeObj.id}`}>
                             <div className="md:flex">
@@ -85,7 +87,13 @@ function Pokedex() {
                             </div>
                         </Link>
                     </div>
-                ))}
+                ))
+                ) : (
+                    <div className="flex flex-col justify-center">
+                        <Image src="/missingno.jpg" alt="missing" width={120} height={40} className="mx-auto"/>
+                        <p  style={{ color: 'gray' }}>Sua Pokedex está vazia.</p>
+                    </div>
+            )}
           </div>
           <Footer />
       </div>
