@@ -174,6 +174,13 @@ function Product({ params }: { params: { id: string } }) {
         }
     };
 
+    const handleQuantityChange = (e) => {
+        const { value } = e.target;
+        if (!value) return;
+
+        setQuantity(Number(value));
+    };
+
     const { from, to } = getNamingColorByType(type.split(' ')[0]);
 
     // const getCardColor = () => {
@@ -244,6 +251,7 @@ function Product({ params }: { params: { id: string } }) {
                             label="Quantidade"
                             type="number"
                             size="small"
+                            onChange={handleQuantityChange}
                             sx={{ width: '10ch' }}
                             defaultValue={1}
                             InputLabelProps={{
