@@ -42,7 +42,7 @@ export default function Rewards() {
               </Tabs>
             </div>
             <Box sx={{ mt: 4 }}>
-              <RewardForm prizeType={prizeType} />
+              <RewardForm prize_type={prizeType} />
             </Box>
           </Paper>
         </Container>

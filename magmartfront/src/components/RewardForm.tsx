@@ -4,26 +4,43 @@ import { PokemonData } from '@/components/myTypes/PokemonTypes';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import FormControl from '@mui/material/FormControl';
+import CreateReward from '@/app/api/createReward';
 import TextField from '@mui/material/TextField';
 import { useEffect, useState } from 'react';
 
 
-export default function RewardForm({ prizeType }) {
+export default function RewardForm({ prize_type }) {
   const [reward, setReward] = useState({
-    name: '',
+    pokemon: {
+      id: '',
+      name: '',
+      tier_id: 0,
+    },
     description: '',
-    experienceRequired: '',
-    prizeType: prizeType
+    experience_required: '',
+    prize_type: prize_type,
   });
   const [pokemons, setPokemons] = useState<PokemonData[]>([]);
+  const [pokemonsGroupedByTier, setPokemonsGroupedByTier] = useState<Any[]>([]);
 
   useEffect(() => {
     async function getdados() {
       try {
-        await GetAllPokemon().then((response) => setPokemons(response));
+        await GetAllPokemon().then((response) => {
+          setPokemons(response);
+          setPokemonsGroupedByTier(response.reduce((acc, pokemon) => {
+              const tierName = pokemon.tier.name;
+              if (!acc[tierName]) {
+                  acc[tierName] = [];
+              }
+              acc[tierName].push(pokemon);
+              return acc;
+          }, {}));
+        });
       } catch (err) {
         console.log(err);
         throw new Error;
@@ -37,43 +54,52 @@ export default function RewardForm({ prizeType }) {
     setReward({ ...reward, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSelectChange = (e) => {
+    const { value } = e.target;
+    if (!value) return;
+
+    const [pokemon] = pokemons.filter((p) => p.id === value);
+    setReward({ ...reward, pokemon: {
+      id: value,
+      name: pokemon.name,
+      tier_id: pokemon.tier.id,
+    }});
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Recompensa cadastrada:', reward);
+    console.log("parameters: ", reward);
+    console.log("prize type: ", prize_type);
+    await CreateReward({
+      tier_id: reward.pokemon.tier_id,
+      name: reward.pokemon.name,
+      description: reward.description,
+      experience_required: Number(reward.experience_required),
+      prize_type,
+      prize: { "pokemon_id": reward.pokemon.id },
+    });
   };
 
-  if (prizeType === "pokemon") {
+  if (prize_type === "pokemon") {
   return (
     <Box component="form" onSubmit={handleSubmit}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <TextField
-            required
-            fullWidth
-            label="Nome"
-            name="name"
-            variant="outlined"
-            InputProps={{
-              classes: {
-                input: "font-mono",
-              },
-            }}
-            value={reward.name}
-            onChange={handleChange}
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#F26419',
-                },
-                '&:hover fieldset': {
-                  borderColor: '#FB5607',
-                },
-              },
-              '& label.Mui-focused': {
-                color: '#FB5607',
-              },
-            }}
-          />
+          <FormControl required sx={{ minWidth: 250 }}>
+            <InputLabel id="demo-simple-select-required-label">Pokémon</InputLabel>
+            <Select native defaultValue="" id="grouped-native-select" label="Grouping" onChange={handleSelectChange}>
+                <option aria-label="None" value="" />
+                {Object.keys(pokemonsGroupedByTier).map((tierName) => (
+                    <optgroup key={tierName} label={tierName}>
+                        {pokemonsGroupedByTier[tierName].map((pokemon) => (
+                            <option key={pokemon.id} value={pokemon.id}>
+                                {pokemon.name}
+                            </option>
+                        ))}
+                    </optgroup>
+                ))}
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={12}>
           <TextField
@@ -110,15 +136,15 @@ export default function RewardForm({ prizeType }) {
           <TextField
             required
             fullWidth
-            label="Experiência"
-            name="experienceRequired"
+            label="Experiência Necessária"
+            name="experience_required"
             type="number"
             variant="outlined"
-            value={reward.experienceRequired}
+            value={reward.experience_required}
             onChange={handleChange}
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">🎯</InputAdornment>
+                <InputAdornment position="start">🧪</InputAdornment>
               ),
               classes: {
                 input: "font-mono",
@@ -138,21 +164,6 @@ export default function RewardForm({ prizeType }) {
               },
             }}
           />
-        </Grid>
-        <Grid item xs={7}>
-          <Select>
-            <MenuItem value="">
-              <img
-                src={`https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format`}
-                alt="teste"
-                loading="lazy"
-                style={{ width: "2em" }}
-              /> Teste
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
         </Grid>
         <Grid item xs={12}>
           <Button
