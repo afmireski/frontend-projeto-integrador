@@ -25,3 +25,12 @@ body{
     text-wrap: balance;
   }
 } 
+
+/* MySwiperComponent.module.css ou um arquivo CSS global */
+.swiper-pagination-bullet {
+  background: #4F46E5;
+}
+
+.swiper-pagination-bullet-active {
+  background: #4F46E5 !important;
+}

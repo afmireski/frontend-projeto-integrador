@@ -18,6 +18,7 @@ import {
     Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import RewardsCarousel from "@/components/RewardsCarousel"
 
 function Profile() {
   const [name, setName] = useState("");
@@ -71,7 +72,7 @@ function Profile() {
   return (
     <div className={styles.containerProfile}>
       <Navbar />
-      <div className="flex flex-row justify-center items-center gap-4 p-8">
+      <div className="flex flex-col  justify-center items-center gap-4 p-8">
         <Card sx={{ maxWidth: 600, padding: 4 }}>
           <CardContent>
             <div className="flex flex-row justify-center items-center gap-4 p-8 scale-125">
@@ -161,6 +162,9 @@ function Profile() {
             </div>
           </CardContent>
         </Card>
+        <div className="flex flex-row justify-center items-center gap-4 p-8">
+          <RewardsCarousel />
+        </div>
       </div>
       <div className={styles.copyright}>
         <Footer />
