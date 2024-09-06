@@ -87,7 +87,8 @@ const RewardsCarousel = () => {
           setUserRewards(updatedUserRewards.data);
         }
       } else {
-        console.error('Erro ao reivindicar recompensa');
+        const errorData = await response.json();
+        console.error('Erro ao reivindicar recompensa:', errorData.error_message);
       }
     } catch (error) {
       console.error('Erro ao reivindicar recompensa', error);

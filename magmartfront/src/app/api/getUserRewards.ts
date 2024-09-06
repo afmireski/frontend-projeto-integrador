@@ -10,8 +10,8 @@ export interface Reward {
     type: string;
     prize: { pokemon_id: string } | any; // O tipo do prêmio pode ser mais específico
     prizeType: string;
-    canclaim: boolean;    // Booleano para verificar se a recompensa pode ser reivindicada
-    claimedAt: boolean;   // Booleano para verificar se a recompensa foi reivindicada
+    can_claim: boolean;    // Booleano para verificar se a recompensa pode ser reivindicada
+    claimed_at: boolean;   // Booleano para verificar se a recompensa foi reivindicada
     userId: string;
     tier: {
       id: number;
