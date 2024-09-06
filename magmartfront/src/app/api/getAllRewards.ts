@@ -28,13 +28,16 @@ export interface Reward {
         },
       });
   
-      if (response.ok) {
-        return { success: true };
-      } else {
-        return { success: false};
-      }
-    } catch (error) {
-      return { success: false};
+      
+    if (response.ok) {
+      const data: Reward[] = await response.json();
+      return { success: true, data };
+    } else {
+      const errorData = await response.json();
+      return { success: false, error: errorData.message || 'Erro ao buscar recompensas' };
     }
+  } catch (error: any) {
+    return { success: false, error: error.message || 'Erro de rede' };
+  }
   }
   
