@@ -93,13 +93,14 @@ function Carrinho() {
     console.log("Item deleted\n ", id);
   };
 
-  const handleConfirm = (cart_id: string, item_id: string) => {
+  const handleConfirm = async (cart_id: string, item_id: string) => {
       // Aqui você pode adicionar lógica para salvar a quantidade no estado global ou API
       if (quantity != previousQuantity){
         EditCartItem(cart_id,item_id,Number(quantity))
         console.log(`Item ${item_id} nova quantidade: ${quantity}`);
         setPreviousQuantity(quantity)
         setEditingItemId(null); // Sai do modo de edição
+        await fetchData();
       }
   };
 
