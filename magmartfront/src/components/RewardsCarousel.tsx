@@ -2,15 +2,27 @@ import React, { useEffect, useState } from 'react';
 import Swiper from 'swiper/bundle';
 import { getAllRewards } from '@/app/api/getAllRewards'; // Ajuste o caminho conforme necessário
 import { getUserRewards } from '@/app/api/getUserRewards'; // Função para buscar recompensas do usuário
+import { claimReward } from '@/app/api/claimReward'; // Função para reivindicar a recompensa
 
-interface Reward {
+export interface Reward {
   id: string;
   tierId: string;
   name: string;
-  description: string;
+  description: string | null;
   experienceRequired: number;
   type: string;
-  prize: any; // O tipo pode variar dependendo da estrutura da recompensa
+  prize: { pokemon_id: string } | any; // O tipo do prêmio pode ser mais específico
+  prizeType: string;
+  can_claim: boolean;    // Booleano para verificar se a recompensa pode ser reivindicada
+  claimed_at: boolean;   // Booleano para verificar se a recompensa foi reivindicada
+  userId: string;
+  tier: {
+    id: number;
+    previousTierId: string | null;
+    name: string;
+    minimalExperience: number;
+    limitExperience: number;
+  };
 }
 
 const RewardsCarousel = () => {
@@ -58,9 +70,28 @@ const RewardsCarousel = () => {
     }
   }, [allRewards]);
 
-  // Verifica se o usuário já possui a recompensa
-  const hasUserReward = (rewardId: string) => {
-    return userRewards.some((userReward) => userReward.id === rewardId);
+  // Verifica o status da recompensa para o usuário
+  const getUserRewardStatus = (rewardId: string) => {
+    const userReward = userRewards.find((userReward) => userReward.id === rewardId);
+    return userReward || { can_claim: false, claimed_at: false }; // Retorna valores padrão se não encontrado
+  };
+
+  // Reivindica uma recompensa
+  const handleClaimReward = async (rewardId: string) => {
+    try {
+      const response = await claimReward(rewardId);
+      if (response.ok) {
+        // Atualiza as recompensas do usuário após a reivindicação
+        const updatedUserRewards = await getUserRewards();
+        if (updatedUserRewards.data) {
+          setUserRewards(updatedUserRewards.data);
+        }
+      } else {
+        console.error('Erro ao reivindicar recompensa');
+      }
+    } catch (error) {
+      console.error('Erro ao reivindicar recompensa', error);
+    }
   };
 
   const renderRewardCards = () => {
@@ -75,19 +106,32 @@ const RewardsCarousel = () => {
       <div key={index} className="swiper-slide">
         <div className="swiper-slide w-full max-w-md mx-auto">
           <div className="bg-indigo-50 rounded-2xl h-96 flex flex-col justify-center items-center p-4">
-            <h2 className="text-2xl font-semibold text-red-600">Recompensas {index + 1}</h2>
+            <h2 className="text-2xl font-semibold text-indigo-600">Recompensas {index + 1}</h2>
             <ul className="text-center text-slate-600 mt-2">
               {group.map((reward, idx) => {
-                const userHasReward = hasUserReward(reward.id);
+                const { can_claim, claimed_at } = getUserRewardStatus(reward.id);
+
+                // Determina o estilo de acordo com o status da recompensa
+                let textStyle = {};
+                if (claimed_at) {
+                  // Recompensa já coletada (laranja)
+                  textStyle = { fontWeight: 'bold', color: 'orange' };
+                } else if (can_claim) {
+                  // Recompensa disponível para coleta (verde)
+                  textStyle = { fontWeight: 'bold', color: 'green' };
+                } else {
+                  // Recompensa indisponível (cinza)
+                  textStyle = { fontWeight: 'bold', color: 'gray' };
+                }
+
                 return (
                   <li
                     key={idx}
-                    style={{
-                      fontWeight: userHasReward ? 'bold' : 'normal',
-                      color: userHasReward ? 'orange' : 'inherit',
-                    }}
+                    style={textStyle}
+                    onClick={() => can_claim && handleClaimReward(reward.id)}
+                    className={can_claim ? 'cursor-pointer' : ''}
                   >
-                    {reward.name}: {reward.description}
+                    {reward.name}: {reward.description || 'Sem descrição'}
                   </li>
                 );
               })}

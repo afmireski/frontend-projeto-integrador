@@ -2,14 +2,26 @@
 import Cookies from 'js-cookie';
 
 export interface Reward {
-    id: string;
-    tierId: string;
+  id: string;
+  tierId: string;
+  name: string;
+  description: string | null;
+  experienceRequired: number;
+  type: string;
+  prize: { pokemon_id: string } | any; // O tipo do prêmio pode ser mais específico
+  prizeType: string;
+  can_claim: boolean;    // Booleano para verificar se a recompensa pode ser reivindicada
+  claimed_at: boolean;   // Booleano para verificar se a recompensa foi reivindicada
+  userId: string;
+  tier: {
+    id: number;
+    previousTierId: string | null;
     name: string;
-    description: string;
-    experienceRequired: number;
-    type: string;
-    prize: any; // O tipo pode variar dependendo da estrutura da recompensa
-  }
+    minimalExperience: number;
+    limitExperience: number;
+  };
+}
+
   
   export interface ApiResponse<T> {
     success: boolean;
