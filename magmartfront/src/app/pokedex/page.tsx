@@ -1,15 +1,14 @@
 "use client"
 import React,{ useState, useEffect } from 'react';
 import Link from 'next/link';
-import styles from '@/styles/Home.module.css';
 import "@/app/globals.css";
-import Image from 'next/image'
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { type } from 'os';
-import GetAllPokemon from '@/app/api/getAllPokemon';
 import slugify from '@/utils/string';
-import Card from '@/components/pokemon/Card'
+import GetPokedex from '@/APIs/getPokedex';
+import { PokedexData } from '@/components/myTypes/PodedexPokemonTypes';
+import Image from 'next/image';
 
 export type type = {
     id: string;
@@ -27,16 +26,15 @@ export type PokemonData = {
     slug: string;
 }
 
-function Home() {
-
-    const [pokemons, setPokemons] = useState<PokemonData[]>([]);
-    const [pokemonsToDisplay, setPokemonsToDisplay] = useState<PokemonData[]>([]);
+function Pokedex() {
+    const [pokemons, setPokemons] = useState<PokedexData[]>([]);
+    const [pokemonsToDisplay, setPokemonsToDisplay] = useState<PokedexData[]>([]);
     let data;
     useEffect(() => {
         async function getdados() {
             try {
-                data =  await GetAllPokemon();
-                const newArrayCopy: PokemonData[] = data.map((pokemon) => ({
+                data =  await GetPokedex();
+                const newArrayCopy: PokedexData[] = data.map((pokemon) => ({
                     ...pokemon,
                     slug: slugify(pokemon.name),
                 }));
@@ -71,13 +69,35 @@ function Home() {
                 </div>
             </form>
           <div className="flex flex-row justify-center min-h-screen items-center gap-4 p-8 flex-wrap overflow-hidden">
-            {pokemonsToDisplay.map((pokeObj, index) => (
-                    <Card key={index} pokeObj={pokeObj} />
-                ))}
+            {pokemonsToDisplay.length > 0 ? (
+                pokemonsToDisplay.map((pokeObj, index) => (
+                    <div key={index} className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+                        <Link href={`/pokedex/${pokeObj.id}`}>
+                            <div className="md:flex">
+                                <div className="md:flex-shrink-0">
+                                <img className="h-48 w-full object-cover md:w-48" src={pokeObj.image_url} alt="Imagem do Card" />
+                                </div>
+                                <div className="p-8">
+                                    <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{pokeObj.name}</div>
+                                    <div className="mt-2 text-blue-500"> {pokeObj.types.map((tPok, index) => (
+                                        <p key={index}>{tPok.name}</p>
+                                    ))}</div>
+                                    <p className="mt-2 text-gray-500"> Quantidade: {pokeObj.quantity}</p>
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
+                ))
+                ) : (
+                    <div className="flex flex-col justify-center">
+                        <Image src="/missingno.jpg" alt="missing" width={120} height={40} className="mx-auto"/>
+                        <p  style={{ color: 'gray' }}>Sua Pokedex está vazia.</p>
+                    </div>
+            )}
           </div>
           <Footer />
       </div>
   );
 }
 
-export default Home;
+export default Pokedex;

@@ -16,7 +16,8 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import slugify from '@/utils/string';
 import SuccessModal from '@/components/SucessModel'; // Importa o modal de sucesso
-import TextField from '@mui/material/TextField';
+import GetPokedexPokemon from '@/APIs/getPokedexPokemon';
+import { PokedexData } from '@/components/myTypes/PodedexPokemonTypes';
 
 
 const getNamingColorByType = (type: string) => {
@@ -116,44 +117,35 @@ const PokemonTierButton = styled(Button)({
     fontWeight: '700',
 })
 
-function Product({ params }: { params: { id: string } }) {
+function Dexmon({ params }: { params: { id: string } }) {
     const [pok_id, setPokId] = useState('');
     const [ref_id, setRefId] = useState(1);
     const [name, setName] = useState('');
     const [weight, setWeight] = useState(1);
     const [height, setHeight] = useState(1);
     const [image, setImage] = useState('');
-    const [exp, setExp] = useState(1);
-    const [price, setPrice] = useState(1);
-    const [stock, setStock] = useState(1);
     const [type, setType] = useState('');
     const [tier_name, setTierName] = useState('');
-    const [min_exp, setMinExp] = useState(1);
-    const [limit_exp, setLimitExp] = useState(1);
     const [quantity, setQuantity] = useState(1);
-    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // Estado do modal de sucesso
 
     let data;
 
     useEffect(() => {
         async function getdados() {
             try {
-                    data = await GetPokemon(params.id);
-                    setPokId(data.id);
-                    setRefId(data.reference_id);
-                    setName(data.name);
-                    setWeight(data.weight);
-                    setHeight(data.height);
-                    setExp(data.experience);
-                    setPrice(data.price);
-                    setStock(data.in_stock);
-                    setImage(data.image_url);
-                    setType((data.types.reduce((types, type)=>{
-                        return types.concat(` ${type.name}`)
-                    },"")).trim());
-                    setTierName(data.tier.name);
-                    setMinExp(data.tier.minimal_experience);
-                    setLimitExp(data.tier.limit_experience);
+                data = await GetPokedexPokemon(params.id);
+                setPokId(data.id);
+                setRefId(data.reference_id);
+                setName(data.name);
+                setWeight(data.weight);
+                setHeight(data.height);
+                setImage(data.image_url);
+                setType((data.types.reduce((types, type)=>{
+                    return types.concat(` ${type.name}`)
+                },"")).trim());
+                setTierName(data.tier.name);
+                setQuantity(data.quantity);
+                    
             } catch {
                 console.log('erro');
             }
@@ -162,38 +154,7 @@ function Product({ params }: { params: { id: string } }) {
         getdados();
     }, []);
 
-    const handleAddToCart = async () => {
-        const userId = "e0353a92-d5b2-4ae7-af00-b9947eb72ea6"; // Substitua pelo ID do usuário autenticado
-        const pokemonId = params.id;
-        const qtty = quantity;
-
-        const success = await addToCart(userId, pokemonId, qtty);
-        console.log(success)
-        if (success) {
-            setIsSuccessModalOpen(true); // Abre o modal de sucesso
-        }
-    };
-
-    const handleQuantityChange = (e) => {
-        const { value } = e.target;
-        if (!value) return;
-
-        setQuantity(Number(value));
-    };
-
     const { from, to } = getNamingColorByType(type.split(' ')[0]);
-
-    // const getCardColor = () => {
-    //     const tmp = type.split(' ');
-    //     console.log(tmp);
-    //     if (tmp.length > 1) {
-    //         const primaryColor = getTypeColor(tmp[0])?.replace(/\d{3}$/, '500');
-    //         const secondaryColor = getTypeColor(tmp[1])?.replace(/\d{3}$/, '500');
-    //         // return `from-${primaryColor} to-${secondaryColor}`;
-    //         return `to-${getTypeColor(tmp[1])} from-${getTypeColor(tmp[0])}`;
-    //     }
-    //     return `bg-${getTypeColor(tmp[0])}`;
-    // }
 
     const getTierBGColor = () => {
         const tier = slugify(tier_name);
@@ -235,48 +196,16 @@ function Product({ params }: { params: { id: string } }) {
                         <p className='text-black'>{weight} kg</p>
                     </Grid>
                     <Grid item xs={6} className="mb-5">
-                        <p>Preço</p>
-                        <p className='text-black'>P$ {price}</p>
-                    </Grid>
-                    <Grid item xs={6} className="mb-5">
-                        <p>Estoque</p>
-                        <p className='text-black'>{stock}</p>
+                        <p>Quantidade</p>
+                        <p className='text-black'>{quantity}</p>
                     </Grid>
                 </Grid>
-                <PokemonTierButton disabled className={`${getTierBGColor()} mr-4 mb-6 font-mono align-middle`}>{tier_name}</PokemonTierButton>
-                <div className='grid grid-cols-2 border-t-2 border-b-2 border-solid border-green-600 p-5' style={{}}>
-                    <div>
-                        <TextField
-                            id="item-quantity"
-                            label="Quantidade"
-                            type="number"
-                            size="small"
-                            onChange={handleQuantityChange}
-                            sx={{ width: '10ch' }}
-                            defaultValue={1}
-                            InputLabelProps={{
-                            shrink: true,
-                            }}
-                        />
-                    </div>
-                    <div>
-                        <button className={`${getTypeColor(type.split(' ')[0])} ${getHoverColor(type.split(' ')[0])} text-white font-bold py-2 px-4`} onClick={handleAddToCart}>
-                            Adicionar ao Carrinho
-                        </button>
-                    </div>
-                </div>
+                <PokemonTierButton disabled className={`${getTierBGColor()} mr-4 mb-4 font-mono align-middle`}>{tier_name}</PokemonTierButton>
             </div>
             </div>
             <Footer />
-            {/* <SuccessModal
-                isOpen={isSuccessModalOpen}
-                onClose={() => setIsSuccessModalOpen(false)}
-                mensagem1="Produto adicionado ao carrinho!"
-                mensagem2="Você pode continuar comprando ou finalizar a compra."
-                rota="/cart"
-            /> */}
         </div>
     );
 }
 
-export default Product;
+export default Dexmon;

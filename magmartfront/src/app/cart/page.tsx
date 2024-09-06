@@ -13,6 +13,10 @@ import Link from "next/link";
 import removeItemFromCart from "@/APIs/removeItemFromCart";
 import FinishPurchase from "@/APIs/finishPurchase";
 import SuccessModal from "@/components/SucessModel";
+import { Input } from "@mui/material";
+import EditCartItem from "../api/editCartItem";
+import DeleteIcon from '@mui/icons-material/Delete';
+import { red } from "@mui/material/colors";
 
 function Carrinho() {
   const [cartData, setCartData] = useState<CartData | null>(null);
@@ -21,6 +25,9 @@ function Carrinho() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string>("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [quantity, setQuantity] = useState<number | null>(null);
+  const [previousQuantity, setPreviousQuantity] = useState<number | null>(null);
+  const [editingItemId, setEditingItemId] = useState<string | null>(null);
 
   async function fetchData() {
     try {
@@ -86,6 +93,17 @@ function Carrinho() {
     console.log("Item deleted\n ", id);
   };
 
+  const handleConfirm = async (cart_id: string, item_id: string) => {
+      // Aqui você pode adicionar lógica para salvar a quantidade no estado global ou API
+      if (quantity != previousQuantity){
+        await EditCartItem(cart_id,item_id,Number(quantity))
+        console.log(`Item ${item_id} nova quantidade: ${quantity}`);
+        setPreviousQuantity(quantity)
+        setEditingItemId(null); // Sai do modo de edição
+        await fetchData();
+      }
+  };
+
   return (
     <div>
       <Navbar />
@@ -115,23 +133,71 @@ function Carrinho() {
                   </div>
                   <div className="px-6 py-4">
                     <label>Quantidade</label>
-                    <div className="text-xl mb-2">{item.quantity}</div>
+                    {editingItemId === item.id ? (
+                    <div className="text-xl mb-2">
+                      <input
+                        type="number"
+                        min="1"
+                        max={100}
+                        className="border p-1"
+                        defaultValue={item.quantity} // Saída do modo de edição ao perder foco
+                        onChange={(e) => setQuantity(Number(e.target.value))}
+                      />
+                      <button
+                        className="ml-2 p-1 text-orange-500"                        
+                        onClick={() => handleConfirm(item.cart_id,item.id)}
+                      >
+                        Confirmar
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="text-xl mb-2">
+                      {item.quantity}
+                      <button
+                        className="ml-2 p-1 text-orange-500"
+                        onClick={() => {
+                          setEditingItemId(item.id);
+                          setQuantity(item.quantity); // Inicializa o valor da quantidade com o valor atual
+                        }}
+                      >
+                        Editar
+                      </button>
+                    </div>
+                  )}
                   </div>
                 </div>
                 <div className="m-5">
-                  <button
-                    className="bg-red-600 w-6 h-6"
+                  <DeleteIcon
+                    sx={{ color: red[600] }}
                     onClick={() => handleDelete(item.id, item.cart_id)}
-                  >
-                    x
-                  </button>
+                  />
                 </div>
               </div>
             ))}
           </div>
           <div className="flex flex-row w-[30%] h-1/2 rounded-md shadow-2xl gap-4 p-8 flex-wrap overflow-hidden">
             <div className="flex flex-row w-full h-1/3 rounded overflow-hidden shadow-xl">
-              <div className="px-6 py-4">
+              { showPaymentOptions ? (
+                <div className="flex flex-col items-center justify-center px-6 ">
+                  <div>
+                      <label htmlFor="">Escolha sua Forma de pagamento</label>
+                      <select
+                        className="border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        value={selectedPaymentMethod}
+                        onChange={handlePaymentMethodChange}
+                      >
+                        {paymentMethods.map((method) => (
+                          <option key={method.id} value={method.id}>
+                            {method.name}
+                          </option>
+                        ))}
+                      </select>
+                  </div>
+                  <button className='bg-orange-600 m-20 w-full p-2 rounded-md' onClick={handlePurchase}>
+                      Finalizar pagamento
+                  </button>
+              </div>)
+              : (<div className="px-6 py-4">
                 <div className="font-bold text-lg mb-2">
                   {`Subtotal (${cartData?.items.length || 0} produtos) R$${
                     cartData?.total || 0
@@ -143,7 +209,7 @@ function Carrinho() {
                 >
                   Fechar pedido
                 </button>
-              </div>
+              </div>)}
             </div>
           </div>
         </div>
